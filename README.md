@@ -20,6 +20,10 @@ TensorFlow近乎黑科技。但是只有英文资料。
 
 我不是专家，我只是自发的。
 
+# Note 注意
+你需要自己下载数据 [下载地址](http://ufldl.stanford.edu/housenumbers/)  
+下载完成后，在 [本教程的路径] 下创建一个 data 的文件夹路径。将数据解压后放在里面。
+
 # Video Links 视频链接
 ### Bilibili
 [TF Girls 修炼指南 1：Intro](http://www.bilibili.com/video/av6495580/)  
