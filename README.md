@@ -37,11 +37,33 @@ TensorFlow近乎黑科技。但是只有英文资料。
 [TF Girls 修炼指南 9：训练并测试神经网络](http://www.bilibili.com/video/av6618827/)
 
 ### Youtube
-[]()  
-[]()  
-[]()  
-[]()  
-[]()  
-[]()  
-[]()  
-[]()  
+还没有上传完全。Not Completely Uploaded
+
+# Additional Resources 额外学习资源
+### 没有机器学习基础的同学 No Machine Learning Background
+Udacity的机器学习 
+[英文 English](https://www.udacity.com/course/machine-learning-engineer-nanodegree--nd009)  
+[中文 Chinese](https://cn.udacity.com/course/machine-learning-engineer-nanodegree--nd009)  
+这个课是收费的，我是Udacity的用户，学习并完成了这个课程。入门最佳，没有之一。  
+Udacity也有免费课程
+
+Coursera上一大堆
+
+### 有机器学习基础，没有深度学习基础的同学 Has Machine Learning Background, New to Deep Learning
+Udacity Deep Learning  
+[英文 English](https://www.udacity.com/course/deep-learning--ud730)  
+[中文 Chinese](https://cn.udacity.com/course/deep-learning--ud730)  
+免费
+
+Stanford Open Course 公开课  
+[cs231n](http://cs231n.github.io/)
+
+More Coming 还有更多的
+
+如果你知道好的资源，请留言  
+If you know good resources， leave a message
+
+# On My Agenda
+完全没想到有这么多星。先谢谢啦！  
+我会将之前质量较差的几期重做。然后，制作更多的中文笔记。毕竟文字+图片的笔记有时比视频更有用。
+
