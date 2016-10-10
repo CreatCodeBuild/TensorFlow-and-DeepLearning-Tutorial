@@ -24,3 +24,11 @@
 我会把整个教程放在Github上。
 
 我的Github: https://github.com/CreatCodeBuild
+
+
+
+欢迎来到《TF Girls 修炼指南 9：解密神经网络 —— 训练并测试神经网络》
+
+我使用的 TensorFlow GPU 支持版。
+
+我们有7万多张训练图片。不可能一次放进内存来训练

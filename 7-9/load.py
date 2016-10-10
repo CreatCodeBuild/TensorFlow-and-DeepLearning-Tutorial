@@ -78,30 +78,31 @@ train = load('../data/train_32x32.mat')
 test = load('../data/test_32x32.mat')
 # extra = load('../data/extra_32x32.mat')
 
-print('Train Samples Shape:', train['X'].shape)
-print('Train  Labels Shape:', train['y'].shape)
+# print('Train Samples Shape:', train['X'].shape)
+# print('Train  Labels Shape:', train['y'].shape)
 
-print('Train Samples Shape:', test['X'].shape)
-print('Train  Labels Shape:', test['y'].shape)
+# print('Train Samples Shape:', test['X'].shape)
+# print('Train  Labels Shape:', test['y'].shape)
 
 # print('Train Samples Shape:', extra['X'].shape)
 # print('Train  Labels Shape:', extra['y'].shape)
 
 train_samples = train['X']
 train_labels = train['y']
-# test_samples = test['X']
-# test_labels = test['y']
-# test_samples = extra['X']
-# test_labels = extra['y']
+test_samples = test['X']
+test_labels = test['y']
+# extra_samples = extra['X']
+# extra_labels = extra['y']
 
-_train_samples, _train_labels = reformat(train_samples, train_labels)
-# _test_samples, _test_labels = reformat(test_samples, test_labels)
-#
-# _train_dataset = normalize(n_train_dataset)
-# _test_dataset = normalize(n_test_dataset)
+n_train_samples, _train_labels = reformat(train_samples, train_labels)
+n_test_samples, _test_labels = reformat(test_samples, test_labels)
+
+_train_samples = normalize(n_train_samples)
+_test_samples = normalize(n_test_samples)
 
 num_labels = 10
 image_size = 32
+num_channels = 1
 
 if __name__ == '__main__':
 	# 探索数据
