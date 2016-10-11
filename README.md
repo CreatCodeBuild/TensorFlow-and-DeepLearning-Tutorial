@@ -24,6 +24,11 @@ TensorFlow近乎黑科技。但是只有英文资料。
 你需要自己下载数据 [下载地址](http://ufldl.stanford.edu/housenumbers/)  
 下载完成后，在 [本教程的路径] 下创建一个 data 的文件夹路径。将数据解压后放在里面。
 
+完全没想到有这么多星。先谢谢啦！  
+我会将之前质量较差的几期重做。然后，制作更多的中文笔记。毕竟文字+图片的笔记有时比视频更有用。
+
+有问题或者意见可以在 Issues 里面题
+
 # Video Links 视频链接
 ### Bilibili
 #### TensorFlow Basics 基本概念
@@ -65,7 +70,3 @@ Udacity也有免费课程
 
 如果你知道好的资源，请留言  
 If you know good resources， leave a message
-
-# On My Agenda
-完全没想到有这么多星。先谢谢啦！  
-我会将之前质量较差的几期重做。然后，制作更多的中文笔记。毕竟文字+图片的笔记有时比视频更有用。
