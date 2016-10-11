@@ -17,6 +17,13 @@ print('Loaded TF version', tf.__version__)
 # 多维数组是张量, 矩阵也是张量
 
 
+# 4个重要的类型
+# @Variable		计算图谱中的变量
+# @Tensor		一个多维矩阵，带有很多方法
+# @Graph		一个计算图谱
+# @Session		用来运行一个计算图谱
+
+
 # 三个重要的函数
 
 # Variable 变量
@@ -38,13 +45,6 @@ print('Loaded TF version', tf.__version__)
 # Placeholder 暂时变量？
 # tf.placeholder(dtype, shape=None, name=None)
 # return: 一个还尚未存在的 @Tensor
-
-
-# 4个重要的类型
-# @Variable
-# @Tensor
-# @Graph
-# @Session
 
 
 
