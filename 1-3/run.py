@@ -1,5 +1,5 @@
 # encoding: utf-8
-
+# 为了 Python3 的兼容，如果你用的 Python2.7
 from __future__ import print_function, division
 import tensorflow as tf
 
@@ -7,8 +7,8 @@ print('Loaded TF version', tf.__version__)
 
 # Tensor 在数学中是“张量”
 # 标量，矢量/向量，张量
-# 简单地理解
 
+# 简单地理解
 # 标量表示值
 # 矢量表示位置（空间中的一个点）
 # 张量表示整个空间
