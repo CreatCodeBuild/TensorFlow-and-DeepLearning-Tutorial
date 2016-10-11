@@ -30,12 +30,9 @@ TensorFlow近乎黑科技。但是只有英文资料。
 有问题或者意见可以在 Issues 里面提
 
 # Video Links 视频链接
-### Bilibili 请以新版为准
+### Bilibili
 #### TensorFlow Basics 基本概念
-[TF Girls 修炼指南 1：Intro 重置版](http://www.bilibili.com/video/av6642102/)  
-[TF Girls 修炼指南 1：Intro 旧版](http://www.bilibili.com/video/av6495580/)  
-[TF Girls 修炼指南 2：Placeholder](http://www.bilibili.com/video/av6496776/)  
-[TF Girls 修炼指南 3：作用域的一些问题](http://www.bilibili.com/video/av6497643/)  
+[TF Girls 修炼指南 1：Intro 重置版](http://www.bilibili.com/video/av6642102/)   
 #### Data Preprocessing 数据预处理
 [TF Girls 修炼指南 4：开始机器学习吧！](http://www.bilibili.com/video/av6510898/)  
 [TF Girls 修炼指南 5：数据的预处理](http://www.bilibili.com/video/av6531490/)  
