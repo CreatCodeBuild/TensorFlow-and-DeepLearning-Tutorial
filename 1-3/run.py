@@ -3,7 +3,7 @@
 from __future__ import print_function, division
 import tensorflow as tf
 
-print('Loaded TF version', tf.__version__)
+print('Loaded TF version', tf.__version__, '\n\n')
 
 # Tensor 在数学中是“张量”
 # 标量，矢量/向量，张量
@@ -54,27 +54,30 @@ def basic_operation():
 	v1 = tf.Variable(10)
 	v2 = tf.Variable(5)
 	addv = v1 + v2
-
+	print(addv)
+	print(type(addv))
+	print(type(v1))
 
 	c1 = tf.constant(10)
 	c2 = tf.constant(5)
 	addc = c1 + c2
-
-	# print(type(v1))
-	# print(type(c1))
-	# print(type(addv))
+	print(addc)
+	print(type(addc))
+	print(type(c1))
 
 	# 用来运行计算图谱的对象/实例？
 	# session is a runtime
 	sess = tf.Session()
 
-	# Variable -> 初始化 -> Tensor
-	#
+	# Variable -> 初始化 -> 有值的Tensor
 	tf.initialize_all_variables().run(session=sess)
 
-	# print('变量是需要初始化的')
-	# print('加法(v1, v2) = ', addv.eval(session=sess))
-	# print('加法(c1, c2) = ', addc.eval(session=sess))
+	print('变量是需要初始化的')
+	print('加法(v1, v2) = ', addv.eval(session=sess))
+	print('加法(v1, v2) = ', sess.run(addv))
+	print('加法(c1, c2) = ', addc.eval(session=sess))
+	print('\n\n')
+	#这种定义操作，再执行操作的模式被称之为“符号式编程” Symbolic Programming
 
 	# tf.Graph.__init__()
 	# Creates a new, empty Graph.
@@ -82,35 +85,36 @@ def basic_operation():
 	with graph.as_default():
 		value1 = tf.constant([1,2])
 		value2 = tf.Variable([3,4])
-		mul = value1 * value2
+		mul = value1 / value2
 
 	with tf.Session(graph=graph) as mySess:
 		tf.initialize_all_variables().run()
-		print('乘法(value1, value2) = ', mySess.run(mul))
+		print('一一对应的除法(value1, value2) = ', mySess.run(mul))
+		print('一一对应的除法(value1, value2) = ', mul.eval())
 
 	# tensor.eval(session=sess)
 	# sess.run(tensor)
 
 
 # 省内存？placeholder才是王道
-def use_placeholder():
+# def use_placeholder():
 	graph = tf.Graph()
 	with graph.as_default():
-		value1 = tf.placeholder(dtype=tf.int64)
-		value2 = tf.Variable([3, 4], dtype=tf.int64)
+		value1 = tf.placeholder(dtype=tf.float64)
+		value2 = tf.Variable([3, 4], dtype=tf.float64)
 		mul = value1 * value2
 
 	with tf.Session(graph=graph) as mySess:
 		tf.initialize_all_variables().run()
 		# 我们想象一下这个数据是从远程加载进来的
-		# 文件，网络，设备
-		# 假装是 10万 GB
+		# 文件，网络
+		# 假装是 10 GB
 		value = load_from_remote()
 		for partialValue in load_partial(value, 2):
-			holderValue = {value1: partialValue}
-			# runResult = mySess.run(mul, feed_dict=holderValue)
-			evalResult = mul.eval(feed_dict=holderValue)
-			print('乘法(value1, value2) = ', evalResult)
+			# runResult = mySess.run(mul, feed_dict={value1: partialValue})
+			evalResult = mul.eval(feed_dict={value1: partialValue})
+			print('乘法(value1, value2) = ', runResult)
+		# cross validation
 
 def load_from_remote():
 	return [-x for x in range(1000)]
@@ -125,65 +129,6 @@ def load_partial(value, step):
 		index += step
 	return
 
-# 给大家解决一些命名空间、作用域上的迷惑
-def scope_and_namespace():
-	#首先我们要知道的是，with语句是不会制造自己的作用域的
-	# graph = tf.Graph()
-	# with graph.as_default():
-	# 	a = 2
-	# 	value1 = tf.placeholder(dtype=tf.int64)
-	# 	value2 = tf.Variable([3, 4], dtype=tf.int64)
-	# 	mul = value1 * value2
-	#
-	# print('我们仍然可以摄取 a，a=', a)
-	#
-	# with tf.Session(graph=graph) as mySess:
-	# 	tf.initialize_all_variables().run()
-	# 	value = load_from_remote()
-	# 	for partialValue in load_partial(value, 2):
-	# 		# 这也是为什么我们可以在Session的with中摄取value1这个命名
-	# 		holderValue = {value1: partialValue}
-	# 		evalResult = mul.eval(feed_dict=holderValue)
-	# 		print('乘法(value1, value2) = ', evalResult)
-
-	# 这有什么问题呢？
-	# with 下创建的Python变量（不要与TF变量混淆）其实是全部暴露给了上级作用域的
-	# 如果你在全局写，那么就全部是全局变量了
-	# 而且，如果你需要更好的模组化呢？
-	class Network():
-		def __init__(self, v3):
-			self.graph = None
-			self.holder = None
-			self.v3 = v3
-			self.operation = None
-
-		def define_graph(self):
-			self.graph = tf.Graph()
-			with self.graph.as_default():
-				a = 2
-				self.holder = tf.placeholder(dtype=tf.int64)
-				value2 = tf.Variable([3, 4], dtype=tf.int64)
-				value3 = tf.Variable(self.v3, dtype=tf.int64)
-				self.operation = self.holder * value2 * value3
-
-			print('我们仍然可以摄取 a，a=', a)
-
-		def run_session(self):
-			with tf.Session(graph=self.graph) as mySess:
-				tf.initialize_all_variables().run()
-				value = load_from_remote()
-				for partialValue in load_partial(value, 2):
-					# 这也是为什么我们可以在Session的with中摄取value1这个命名
-					holderValue = {self.holder: partialValue}
-					evalResult = self.operation.eval(feed_dict=holderValue)
-					print('乘法(value1, value2) = ', evalResult)
-
-	# 声明式的API
-	myNet = Network([0, 1])
-	myNet.define_graph()
-	myNet.run_session()
-
 if __name__ == '__main__':
-	# basic_operation()
+	basic_operation()
 	# use_placeholder()
-	scope_and_namespace()
