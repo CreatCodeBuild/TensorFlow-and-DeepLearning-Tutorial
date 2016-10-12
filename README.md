@@ -45,7 +45,7 @@ TensorFlow近乎黑科技。但是只有英文资料。
 #### Udacity的机器学习  
 [英文 English](https://www.udacity.com/course/machine-learning-engineer-nanodegree--nd009)  
 [中文 Chinese](https://cn.udacity.com/course/machine-learning-engineer-nanodegree--nd009)  
-这个课是收费的，我是Udacity的用户，学习并完成了这个课程。入门最佳，没有之一。  
+这个课是收费的，我学习并完成了这个课程。入门最佳，没有之一。  
 Udacity也有免费课程
 
 #### Coursera上一大堆
@@ -65,7 +65,6 @@ Udacity也有免费课程
 下载完成后，在 [本教程的路径] 下创建一个 data 的文件夹路径。将数据解压后放在里面。
 
 完全没想到有这么多星。先谢谢啦！  
-我会将之前质量较差的几期重做。然后，制作更多的中文笔记。毕竟文字+图片的笔记有时比视频更有用。
-
-有问题或者意见可以在 Issues 里面提
+除了视频，我也会更新一定的文字图片资料
+大家对教程有什么建议的，尽情地提出来！可以放在 Issues 里面
 
