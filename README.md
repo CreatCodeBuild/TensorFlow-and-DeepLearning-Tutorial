@@ -43,6 +43,8 @@ TensorFlow近乎黑科技。但是只有英文资料。
 [TF Girls 修炼指南 7：解密神经网络 —— 数据流图谱之谜](http://www.bilibili.com/video/av6563470/)  
 [TF Girls 修炼指南 8：解密神经网络 —— 全连接神经网络](http://www.bilibili.com/video/av6595334/)  
 [TF Girls 修炼指南 9：训练并测试神经网络](http://www.bilibili.com/video/av6618827/)
+#### TensorBoard 可视化
+[TF Girls 修炼指南 10：TensorBoard 可视化](http://www.bilibili.com/video/av6653880)
 
 ### Youtube
 还没有上传完全。Not Completely Uploaded
