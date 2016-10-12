@@ -2,4 +2,4 @@ data/
 __pycache__*
 *.pyc
 ~$*
-*/board/
+events.out.tfevents*
