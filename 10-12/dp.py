@@ -58,27 +58,30 @@ class Network():
 		'''
 		with self.graph.as_default():
 			# 这里只是定义图谱中的各种变量
-			self.tf_train_samples = tf.placeholder(
-				tf.float32, shape=(self.batch_size, image_size, image_size, num_channels)
-			)
-			self.tf_train_labels  = tf.placeholder(
-				tf.float32, shape=(self.batch_size, num_labels)
-			)
-			self.tf_test_samples  = tf.placeholder(
-				tf.float32, shape=(self.test_batch_size, image_size, image_size, num_channels)
-			)
+			with tf.name_scope('inputs'):
+				self.tf_train_samples = tf.placeholder(
+					tf.float32, shape=(self.batch_size, image_size, image_size, num_channels), name='tf_train_samples'
+				)
+				self.tf_train_labels  = tf.placeholder(
+					tf.float32, shape=(self.batch_size, num_labels), name='tf_train_labels'
+				)
+				self.tf_test_samples  = tf.placeholder(
+					tf.float32, shape=(self.test_batch_size, image_size, image_size, num_channels), name='tf_test_samples'
+				)
 
 			# fully connected layer 1, fully connected
-			fc1_weights = tf.Variable(
-				tf.truncated_normal([image_size * image_size, self.num_hidden], stddev=0.1)
-			)
-			fc1_biases = tf.Variable(tf.constant(0.1, shape=[self.num_hidden]))
+			with tf.name_scope('fc1'):
+				fc1_weights = tf.Variable(
+					tf.truncated_normal([image_size * image_size, self.num_hidden], stddev=0.1), name='fc1_weights'
+				)
+				fc1_biases = tf.Variable(tf.constant(0.1, shape=[self.num_hidden]), name='fc1_biases')
 
 			# fully connected layer 2 --> output layer
-			fc2_weights = tf.Variable(
-				tf.truncated_normal([self.num_hidden, num_labels], stddev=0.1)
-			)
-			fc2_biases = tf.Variable(tf.constant(0.1, shape=[num_labels]))
+			with tf.name_scope('fc2'):
+				fc2_weights = tf.Variable(
+					tf.truncated_normal([self.num_hidden, num_labels], stddev=0.1), name='fc2_weights'
+				)
+				fc2_biases = tf.Variable(tf.constant(0.1, shape=[num_labels]), name='fc2_biases')
 
 			# 想在来定义图谱的运算
 			def model(data):
@@ -87,23 +90,28 @@ class Network():
 				print(data.get_shape(), shape)
 				reshape = tf.reshape(data, [shape[0], shape[1] * shape[2] * shape[3]])
 				print(reshape.get_shape(), fc1_weights.get_shape(), fc1_biases.get_shape())
-				hidden = tf.nn.relu(tf.matmul(reshape, fc1_weights) + fc1_biases)
+				with tf.name_scope('fc1_model'):
+					fc1_model = tf.matmul(reshape, fc1_weights) + fc1_biases
+					hidden = tf.nn.relu(fc1_model)
 
 				# fully connected layer 2
-				return tf.matmul(hidden, fc2_weights) + fc2_biases
+				with tf.name_scope('fc2_model'):
+					return tf.matmul(hidden, fc2_weights) + fc2_biases
 
 			# Training computation.
 			logits = model(self.tf_train_samples)
-			self.loss = tf.reduce_mean(
-				tf.nn.softmax_cross_entropy_with_logits(logits, self.tf_train_labels)
-			)
+			with tf.name_scope('loss'):
+				self.loss = tf.reduce_mean(
+					tf.nn.softmax_cross_entropy_with_logits(logits, self.tf_train_labels), name='loss'
+				)
 
-			# Optimizer.
-			self.optimizer = tf.train.GradientDescentOptimizer(0.0001).minimize(self.loss)
+			with tf.name_scope('optimizer'):
+				self.optimizer = tf.train.GradientDescentOptimizer(0.0001).minimize(self.loss)
 
 			# Predictions for the training, validation, and test data.
-			self.train_prediction = tf.nn.softmax(logits)
-			self.test_prediction = tf.nn.softmax(model(self.tf_test_samples))
+			# with tf.name_scope('predictions'):
+			# 	self.train_prediction = tf.nn.softmax(logits, name='train_prediction')
+			# 	self.test_prediction = tf.nn.softmax(model(self.tf_test_samples), name='test_prediction')
 
 	def run(self):
 		'''
@@ -122,37 +130,38 @@ class Network():
 
 
 		self.session = tf.Session(graph=self.graph)
+		writer = tf.train.SummaryWriter('./board', self.graph)
 		with self.session as session:
 			tf.initialize_all_variables().run()
 
-			### 训练
-			print('Start Training')
-			# batch 1000
-			for i, samples, labels in get_chunk(train_samples, train_labels, chunkSize=self.batch_size):
-				_, l, predictions = session.run(
-					[self.optimizer, self.loss, self.train_prediction],
-					feed_dict={self.tf_train_samples: samples, self.tf_train_labels: labels}
-				)
-				# labels is True Labels
-				accuracy, _ = self.accuracy(predictions, labels)
-				if i % 50 == 0:
-					print('Minibatch loss at step %d: %f' % (i, l))
-					print('Minibatch accuracy: %.1f%%' % accuracy)
-			###
-
-			### 测试
-			accuracies = []
-			confusionMatrices = []
-			for i, samples, labels in get_chunk(test_samples, test_labels, chunkSize=self.test_batch_size):
-				result = self.test_prediction.eval(feed_dict={self.tf_test_samples: samples})
-				accuracy, cm = self.accuracy(result, labels, need_confusion_matrix=True)
-				accuracies.append(accuracy)
-				confusionMatrices.append(cm)
-				print('Test Accuracy: %.1f%%' % accuracy)
-			print(' Average  Accuracy:', np.average(accuracies))
-			print('Standard Deviation:', np.std(accuracies))
-			print_confusion_matrix(np.add.reduce(confusionMatrices))
-			###
+			# ### 训练
+			# print('Start Training')
+			# # batch 1000
+			# for i, samples, labels in get_chunk(train_samples, train_labels, chunkSize=self.batch_size):
+			# 	_, l, predictions = session.run(
+			# 		[self.optimizer, self.loss, self.train_prediction],
+			# 		feed_dict={self.tf_train_samples: samples, self.tf_train_labels: labels}
+			# 	)
+			# 	# labels is True Labels
+			# 	accuracy, _ = self.accuracy(predictions, labels)
+			# 	if i % 50 == 0:
+			# 		print('Minibatch loss at step %d: %f' % (i, l))
+			# 		print('Minibatch accuracy: %.1f%%' % accuracy)
+			# ###
+			#
+			# ### 测试
+			# accuracies = []
+			# confusionMatrices = []
+			# for i, samples, labels in get_chunk(test_samples, test_labels, chunkSize=self.test_batch_size):
+			# 	result = self.test_prediction.eval(feed_dict={self.tf_test_samples: samples})
+			# 	accuracy, cm = self.accuracy(result, labels, need_confusion_matrix=True)
+			# 	accuracies.append(accuracy)
+			# 	confusionMatrices.append(cm)
+			# 	print('Test Accuracy: %.1f%%' % accuracy)
+			# print(' Average  Accuracy:', np.average(accuracies))
+			# print('Standard Deviation:', np.std(accuracies))
+			# print_confusion_matrix(np.add.reduce(confusionMatrices))
+			# ###
 
 	def accuracy(self, predictions, labels, need_confusion_matrix=False):
 		'''
