@@ -66,9 +66,5 @@ Udacity也有免费课程
 免费
 
 ### Stanford Open Course 公开课  
-[cs231n](http://cs231n.github.io/)
-
-### More Coming 还有更多的
-
-如果你知道好的资源，请留言  
-If you know good resources， leave a message
+[cs231n](http://cs231n.github.io/) 卷积神经网络与计算机视觉  
+[cs224d](http://cs224d.stanford.edu/) 循环神经网络与自然语言处理  
