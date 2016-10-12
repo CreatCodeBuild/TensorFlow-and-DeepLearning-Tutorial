@@ -20,15 +20,6 @@ TensorFlow近乎黑科技。但是只有英文资料。
 
 我不是专家，我只是自发的。
 
-# Note 注意
-你需要自己下载数据 [下载地址](http://ufldl.stanford.edu/housenumbers/)  
-下载完成后，在 [本教程的路径] 下创建一个 data 的文件夹路径。将数据解压后放在里面。
-
-完全没想到有这么多星。先谢谢啦！  
-我会将之前质量较差的几期重做。然后，制作更多的中文笔记。毕竟文字+图片的笔记有时比视频更有用。
-
-有问题或者意见可以在 Issues 里面提
-
 # Video Links 视频链接
 ### Bilibili
 #### TensorFlow Basics 基本概念
@@ -50,7 +41,7 @@ TensorFlow近乎黑科技。但是只有英文资料。
 还没有上传完全。Not Completely Uploaded
 
 # Additional Resources 额外学习资源
-## 没有机器学习基础的同学 No Machine Learning Background
+### 没有机器学习基础的同学 No Machine Learning Background
 ### Udacity的机器学习  
 [英文 English](https://www.udacity.com/course/machine-learning-engineer-nanodegree--nd009)  
 [中文 Chinese](https://cn.udacity.com/course/machine-learning-engineer-nanodegree--nd009)  
@@ -59,7 +50,7 @@ Udacity也有免费课程
 
 ### Coursera上一大堆
 
-## 有机器学习基础，没有深度学习基础的同学 Has Machine Learning Background, New to Deep Learning
+### 有机器学习基础，没有深度学习基础的同学 Has Machine Learning Background, New to Deep Learning
 ### Udacity Deep Learning  
 [英文 English](https://www.udacity.com/course/deep-learning--ud730)  
 [中文 Chinese](https://cn.udacity.com/course/deep-learning--ud730)  
@@ -68,3 +59,13 @@ Udacity也有免费课程
 ### Stanford Open Course 公开课  
 [cs231n](http://cs231n.github.io/) 卷积神经网络与计算机视觉  
 [cs224d](http://cs224d.stanford.edu/) 循环神经网络与自然语言处理  
+
+# Note 注意
+你需要自己下载数据 [下载地址](http://ufldl.stanford.edu/housenumbers/)  
+下载完成后，在 [本教程的路径] 下创建一个 data 的文件夹路径。将数据解压后放在里面。
+
+完全没想到有这么多星。先谢谢啦！  
+我会将之前质量较差的几期重做。然后，制作更多的中文笔记。毕竟文字+图片的笔记有时比视频更有用。
+
+有问题或者意见可以在 Issues 里面提
+
