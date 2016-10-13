@@ -3,3 +3,4 @@ __pycache__*
 *.pyc
 ~$*
 events.out.tfevents*
+.idea*
