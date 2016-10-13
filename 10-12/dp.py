@@ -52,6 +52,11 @@ class Network():
 		self.tf_test_labels = None
 		self.tf_test_prediction = None
 
+		# 初始化
+		self.define_graph()
+		self.session = tf.Session(graph=self.graph)
+		writer = tf.train.SummaryWriter('./board', self.graph)
+
 	def define_graph(self):
 		'''
 		定义我的的计算图谱
@@ -87,9 +92,8 @@ class Network():
 			def model(data):
 				# fully connected layer 1
 				shape = data.get_shape().as_list()
-				print(data.get_shape(), shape)
 				reshape = tf.reshape(data, [shape[0], shape[1] * shape[2] * shape[3]])
-				print(reshape.get_shape(), fc1_weights.get_shape(), fc1_biases.get_shape())
+
 				with tf.name_scope('fc1_model'):
 					fc1_model = tf.matmul(reshape, fc1_weights) + fc1_biases
 					hidden = tf.nn.relu(fc1_model)
@@ -102,16 +106,16 @@ class Network():
 			logits = model(self.tf_train_samples)
 			with tf.name_scope('loss'):
 				self.loss = tf.reduce_mean(
-					tf.nn.softmax_cross_entropy_with_logits(logits, self.tf_train_labels), name='loss'
+					tf.nn.softmax_cross_entropy_with_logits(logits, self.tf_train_labels)
 				)
 
+			# Optimizer.
 			with tf.name_scope('optimizer'):
 				self.optimizer = tf.train.GradientDescentOptimizer(0.0001).minimize(self.loss)
 
 			# Predictions for the training, validation, and test data.
-			# with tf.name_scope('predictions'):
-			# 	self.train_prediction = tf.nn.softmax(logits, name='train_prediction')
-			# 	self.test_prediction = tf.nn.softmax(model(self.tf_test_samples), name='test_prediction')
+			# self.train_prediction = tf.nn.softmax(logits)
+			# self.test_prediction = tf.nn.softmax(model(self.tf_test_samples))
 
 	def run(self):
 		'''
@@ -129,8 +133,7 @@ class Network():
 			print('\n',np.sum(confusionMatrix), a)
 
 
-		self.session = tf.Session(graph=self.graph)
-		writer = tf.train.SummaryWriter('./board', self.graph)
+
 		with self.session as session:
 			tf.initialize_all_variables().run()
 
@@ -178,5 +181,4 @@ class Network():
 
 if __name__ == '__main__':
 	net = Network(num_hidden=128, batch_size=100)
-	net.define_graph()
 	net.run()
