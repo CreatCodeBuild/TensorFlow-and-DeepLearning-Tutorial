@@ -4,3 +4,4 @@ __pycache__*
 ~$*
 events.out.tfevents*
 .idea*
+node_modules*
