@@ -17,7 +17,7 @@ app.get('/slower', function(req, res){
 	console.log('/slower');
 	setTimeout(function () {
 		res.end('Slower Response');
-	}, 3000);
+	}, 2000);
 });
 
 app.get('/super-slow', function(req, res) {

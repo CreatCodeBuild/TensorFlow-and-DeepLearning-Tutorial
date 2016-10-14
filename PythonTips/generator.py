@@ -4,52 +4,53 @@
 那么这一期就给大家讲一讲Generator是什么？为什么要使用Generator？
 '''
 
-# def example1():
-# 	def generator_function():
-# 		yield 1
-# 		yield 2
-# 		return 3
-#
-# 	generatorObject = generator_function()
-# 	print(next(generatorObject))
-# 	print(next(generatorObject))
-#
-# 	try:
-# 		print(next(generatorObject))
-# 	except:
-# 		pass
-#
-# def example2():
-# 	def generator_function(number):
-# 		yield 1
-# 		yield 2
-# 		return 3
-#
-# 	generatorObject = generator_function()
-# 	print(next(generatorObject))
-# 	print(next(generatorObject))
-#
-# 	try:
-# 		print(next(generatorObject))
-# 	except:
-# 		pass
-#
-#
-# example1()
-#
-#
-#
-#
-#
-# # Event Loop
-# class Event():
-#
-#
-#
-# loop = []
-# for event in loop:
-# 	handle(event)
-#
+def example1():
+	def generator_function():
+		yield 1
+		yield 2
+		return 3
+	generatorObject = generator_function()
+	print(next(generatorObject))
+	print(next(generatorObject))
+	try:
+		print(next(generatorObject))
+	except:
+		print('We have reached the end of iteration')
+
+def example2():
+	def generator_function(number):
+		while number > 0:
+			yield number
+			number -= 1
+	for number in generator_function(10):
+		print(number)
+
+def example3():
+	def generator_function(number):
+		if number > 0:
+			yield number
+			yield from generator_function(number-1)
+	for number in generator_function(10):
+		print(number)
+
+example1()
+example2()
+example3()
+
+
+# Event Loop
+class Event():
+	pass
+
+
+class EventLoop():
+	pass
+
+
+class Future():
+	pass
+
+
 
 import socket
 import time
