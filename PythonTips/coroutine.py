@@ -67,7 +67,7 @@ def async_get(path):
 	except BlockingIOError as e:
 		print(e)
 
-	request = 'GET %s HHTP/1.0\r\n\r\n' % path
+	request = 'GET %s HTTP/1.0\r\n\r\n' % path
 
 	f = Future()
 	selector.register(s.fileno(), EVENT_WRITE, data=f)
