@@ -21,25 +21,25 @@ TensorFlow近乎黑科技。但是只有英文资料。
 我不是专家，我只是自发的。
 
 # Video Links 视频链接
-### Bilibili
-#### TensorFlow Basics 基本概念
+## Bilibili
+### TensorFlow Basics 基本概念
 [TF Girls 修炼指南 1：Intro 重置版](http://www.bilibili.com/video/av6642102/)   
 [TF Girls 修炼指南 2：基本操作](http://www.bilibili.com/video/av6642246)  
 [TF Girls 修炼指南 3：Placeholder 的用法](http://www.bilibili.com/video/av6642303/)  
-#### Data Preprocessing 数据预处理
+### Data Preprocessing 数据预处理
 [TF Girls 修炼指南 4：开始机器学习吧！](http://www.bilibili.com/video/av6510898/)  
 [TF Girls 修炼指南 5：数据的预处理](http://www.bilibili.com/video/av6531490/)  
 [TF Girls 修炼指南 6：查看数据的统计分布](http://www.bilibili.com/video/av6544856/)  
-#### Neural Network 神经网络
+### Neural Network 神经网络
 [TF Girls 修炼指南 7：解密神经网络 —— 数据流图谱之谜](http://www.bilibili.com/video/av6563470/)  
 [TF Girls 修炼指南 8：解密神经网络 —— 全连接神经网络](http://www.bilibili.com/video/av6595334/)  
 [TF Girls 修炼指南 9：训练并测试神经网络](http://www.bilibili.com/video/av6618827/)
-#### TensorBoard 可视化
+### TensorBoard 可视化
 [TF Girls 修炼指南 10：TensorBoard 可视化计算图谱](http://www.bilibili.com/video/av6653880)  
 [TF Girls 修炼指南 11：TensorBoard 可视化训练记录](http://www.bilibili.com/video/av6678775/)  
-#### Python 加油站
-#### 1. Generator 与 异步编程
-    [Python 加油站：Generator 的使用](http://www.bilibili.com/video/av6668700/)  
+### Python 加油站
+#### Generator 与 异步编程
+[Python 加油站：Generator 的使用](http://www.bilibili.com/video/av6668700/)  
 
 ### Youtube
 还没有上传完全。Not Completely Uploaded
