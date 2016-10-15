@@ -35,7 +35,8 @@ TensorFlow近乎黑科技。但是只有英文资料。
 [TF Girls 修炼指南 8：解密神经网络 —— 全连接神经网络](http://www.bilibili.com/video/av6595334/)  
 [TF Girls 修炼指南 9：训练并测试神经网络](http://www.bilibili.com/video/av6618827/)
 #### TensorBoard 可视化
-[TF Girls 修炼指南 10：TensorBoard 可视化](http://www.bilibili.com/video/av6653880)
+[TF Girls 修炼指南 10：TensorBoard 可视化计算图谱](http://www.bilibili.com/video/av6653880)  
+[TF Girls 修炼指南 11：TensorBoard 可视化训练记录](http://www.bilibili.com/video/av6678775/)  
 #### Python 加油站
 [Python 加油站：Generator 的使用](http://www.bilibili.com/video/av6668700/)  
 
