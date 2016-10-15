@@ -57,7 +57,7 @@ def get(path):
 	s = socket.socket()
 	s.connect(('localhost', 3000))
 
-	request = 'GET %s HHTP/1.0\r\n\r\n' % path
+	request = 'GET %s HTTP/1.0\r\n\r\n' % path
 	s.send(request.encode())
 
 	chunks = []
