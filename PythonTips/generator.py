@@ -5,10 +5,12 @@
 '''
 
 def example1():
+
 	def generator_function():
-		yield 1
+		yield 1		# 中文里 有产出 或者 让步
 		yield 2
 		return 3
+
 	generatorObject = generator_function()
 	print(next(generatorObject))
 	print(next(generatorObject))
@@ -26,32 +28,42 @@ def example2():
 		print(number)
 
 def example3():
+	def fun():
+		return 'fun'
 	def generator_function(number):
 		if number > 0:
 			yield number
+			print(fun())
 			yield from generator_function(number-1)
 	for number in generator_function(10):
 		print(number)
 
-example1()
-example2()
-example3()
+# example1()
+# example2()
+# example3()
 
 
-# Event Loop
-class Event():
-	pass
+'''
+Generator
+Async Operation -> I/O Bound
+				-> Memory Efficiency
+'''
 
-
-class EventLoop():
-	pass
-
-
-class Future():
-	pass
-
-
-
+#
+# # Event Loop
+# class Event():
+# 	pass
+#
+#
+# class EventLoop():
+# 	pass
+#
+#
+# class Future():
+# 	pass
+#
+#
+#
 import socket
 import time
 
@@ -64,7 +76,7 @@ def get(path):
 
 	chunks = []
 	while True:
-		chunk = s.recv(1000)
+		chunk = s.recv(1000) # 1000 bytes
 		if chunk:
 			chunks.append(chunk)
 		else:
@@ -75,9 +87,9 @@ def get(path):
 			return
 
 start = time.time()
+get('/slow')
 get('/super-slow')
-get('/super-slow')
-get('/super-slow')
+get('/slower')
 print('%.1f sec' % (time.time() - start))
 
 
