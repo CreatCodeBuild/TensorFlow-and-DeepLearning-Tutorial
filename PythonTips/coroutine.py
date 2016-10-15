@@ -4,7 +4,6 @@ from selectors import DefaultSelector, EVENT_WRITE, EVENT_READ
 
 
 selector = DefaultSelector()
-n_task = 0
 
 
 class Future:
@@ -15,8 +14,9 @@ class Future:
 		for func in self.callbacks:
 			func()
 
+
 class Task:	# responsible for calling next() on generators
-	def __init__(self, gen):
+	def __init__(self, gen, eventLoop):
 		self.gen = gen
 		self.step()
 
@@ -24,14 +24,28 @@ class Task:	# responsible for calling next() on generators
 		try:
 			f =	next(self.gen)
 		except StopIteration:
+			eventLoop.n_task -= 1
 			return
 		f.callbacks.append(self.step)
 
 
-def async_get(path):
-	global n_task
-	n_task += 1
+class EventLoop:
+	def __init__(self):
+		self.n_task = 0
 
+	def add_task(self, generator):
+		self.n_task += 1
+		Task(generator, self)
+
+	def start(self):
+		while self.n_task:
+			events = selector.select()
+			for event, mask in events:
+				fut = event.data
+				fut.resolve()
+
+
+def async_get(path):
 	s = socket.socket()
 	s.setblocking(False)
 	try:
@@ -62,19 +76,19 @@ def async_get(path):
 			print('--------------------------------------')
 			print(body)
 			print('--------------------------------------\n\n')
-			n_task -= 1
 			return
 
 
 start = time.time()
-Task(async_get('/slow'))
-Task(async_get('/super-slow'))
-Task(async_get('/slower'))
+eventLoop = EventLoop()
 
-while n_task:
-	events = selector.select()
-	for event, mask in events:
-		fut = event.data
-		fut.resolve()
+eventLoop.add_task(async_get('/slow'))
+eventLoop.add_task(async_get('/slow'))
+eventLoop.add_task(async_get('/slow'))
+eventLoop.add_task(async_get('/slow'))
+eventLoop.add_task(async_get('/slow'))
+eventLoop.add_task(async_get('/slow'))
+
+eventLoop.start()
 
 print('%.1f sec' % (time.time() - start))
