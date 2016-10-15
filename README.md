@@ -39,6 +39,7 @@ TensorFlow近乎黑科技。但是只有英文资料。
 [TF Girls 修炼指南 11：TensorBoard 可视化训练记录](http://www.bilibili.com/video/av6678775/)  
 #### Python 加油站
 [Python 加油站：Generator 的使用](http://www.bilibili.com/video/av6668700/)  
+[Python 加油站：写个 Coroutine 框架](http://www.bilibili.com/video/av6685277)  
 
 ### Youtube
 还没有上传完全。Not Completely Uploaded
