@@ -2,23 +2,19 @@
 
 Open Source Technology means to be shared across the world.
 
-While TensorFlow is a piece of super advanced technology, there are only English supports.
+While TensorFlow is a piece of super advanced technology, there are mostly English supports.
 
-The population of Chinese developers is probably more than English developers.
+I feel the need to provide an easier way for Chinese developers to learn this world-class technology.
 
-I feel the need to provide an easier way to Chinese developers to learn this world-class technology.
-
-I am not an expert, but I am self-motivated.
+I am not an expert. I share when I learn. That's deep.
 
 开源项目注定要分享给全世界。
 
-TensorFlow近乎黑科技。但是只有英文资料。
-
-中文世界的开发者有很多，可能比英文世界还要多。
+TensorFlow近乎黑科技。但是几乎只是英文资料。
 
 我觉得有必要为中文世界开发者们提供一个更容易的学习之路。
 
-我不是专家，我只是自发的。
+我不是专家。我学习所以我分享。可以的，这很深。
 
 # Video Links 视频链接
 ### Bilibili
@@ -47,6 +43,9 @@ TensorFlow近乎黑科技。但是只有英文资料。
 还没有上传完全。Not Completely Uploaded
 
 # Additional Resources 额外学习资源
+### 中文资源
+[TF 中文社区](http://tensorfly.cn/)
+
 ### 没有机器学习基础的同学 No Machine Learning Background
 #### Udacity的机器学习  
 [英文 English](https://www.udacity.com/course/machine-learning-engineer-nanodegree--nd009)  
