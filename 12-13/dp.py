@@ -82,6 +82,18 @@ class Network():
 					tf.float32, shape=(self.test_batch_size, image_size, image_size, num_channels), name='tf_test_samples'
 				)
 
+			with tf.name_scope('conv1'):
+
+
+			with tf.name_scope('conv2'):
+
+
+			with tf.name_scope('conv3'):
+
+
+			with tf.name_scope('conv4'):
+
+
 			# fully connected layer 1, fully connected
 			with tf.name_scope('fc1'):
 				fc1_weights = tf.Variable(
