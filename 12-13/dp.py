@@ -38,7 +38,7 @@ def get_chunk(samples, labels, chunkSize):
 
 
 class Network():
-	def __init__(self, num_hidden, batch_size):
+	def __init__(self, num_hidden, batch_size, patch_size, conv_depth, pooling_stride):
 		'''
 		@num_hidden: 隐藏层的节点数量
 		@batch_size：因为我们要节省内存，所以分批处理数据。每一批的数据量。
@@ -48,6 +48,13 @@ class Network():
 
 		# Hyper Parameters
 		self.num_hidden = num_hidden
+		self.patch_size = patch_size # 滑窗的大小
+		self.conv1_depth = conv_depth
+		self.conv2_depth = conv_depth
+		self.conv3_depth = conv_depth
+		self.conv4_depth = conv_depth
+		self.last_conv_depth = self.conv4_depth
+		self.pooling_stride = pooling_stride	# Max Pooling Stride
 
 		# Graph Related
 		self.graph = tf.Graph()
@@ -83,23 +90,40 @@ class Network():
 				)
 
 			with tf.name_scope('conv1'):
-
+				conv1_weights = tf.Variable(
+					tf.truncated_normal([self.patch_size, self.patch_size, num_channels, self.conv1_depth], stddev=0.1))
+				conv1_biases = tf.Variable(tf.zeros([self.conv1_depth]))
 
 			with tf.name_scope('conv2'):
-
+				conv2_weights = tf.Variable(
+					tf.truncated_normal([self.patch_size, self.patch_size, self.conv1_depth, self.conv2_depth], stddev=0.1))
+				conv2_biases = tf.Variable(tf.constant(0.1, shape=[self.conv2_depth]))
 
 			with tf.name_scope('conv3'):
-
+				conv3_weights = tf.Variable(
+					tf.truncated_normal([self.patch_size, self.patch_size, self.conv2_depth, self.conv3_depth], stddev=0.1))
+				conv3_biases = tf.Variable(tf.constant(0.1, shape=[self.conv3_depth]))
 
 			with tf.name_scope('conv4'):
+				conv4_weights = tf.Variable(
+					tf.truncated_normal([self.patch_size, self.patch_size, self.conv3_depth, self.conv4_depth], stddev=0.1))
+				conv4_biases = tf.Variable(tf.constant(0.1, shape=[self.conv4_depth]))
+
+			10 x 10
+
+			pooling_stride = 2
+
+			5 x 5   2^2 = 4
 
 
 			# fully connected layer 1, fully connected
 			with tf.name_scope('fc1'):
+				down_scale = self.pooling_stride ** 2	# because we do 2 times pooling of stride 2
 				fc1_weights = tf.Variable(
-					tf.truncated_normal([image_size * image_size, self.num_hidden], stddev=0.1), name='fc1_weights'
-				)
-				fc1_biases = tf.Variable(tf.constant(0.1, shape=[self.num_hidden]), name='fc1_biases')
+					tf.truncated_normal(
+						[(image_size // down_scale) * (image_size // down_scale) * self.last_conv_depth, self.num_hidden], stddev=0.1))
+				fc1_biases = tf.Variable(tf.constant(0.1, shape=[self.num_hidden]))
+
 				tf.histogram_summary('fc1_weights', fc1_weights)
 				tf.histogram_summary('fc1_biases', fc1_biases)
 
