@@ -34,7 +34,8 @@ TensorFlow近乎黑科技。但是几乎只是英文资料。
 [TF Girls 修炼指南 10：TensorBoard 可视化计算图谱](http://www.bilibili.com/video/av6653880)  
 [TF Girls 修炼指南 11：TensorBoard 可视化训练记录](http://www.bilibili.com/video/av6678775/)  
 #### Convolutional Neural Network 卷积神经网络
-[TF Girls 修炼指南 12：卷积神经网络](http://www.bilibili.com/video/av6712708/)
+[TF Girls 修炼指南 12：卷积神经网络](http://www.bilibili.com/video/av6712708/)  
+[]()
 #### Python 加油站
 [Python 加油站：Generator 的使用](http://www.bilibili.com/video/av6668700/)  
 [Python 加油站：写个 Coroutine 框架](http://www.bilibili.com/video/av6685277) 链接失效，将会重新制作
@@ -61,6 +62,8 @@ TensorFlow近乎黑科技。但是几乎只是英文资料。
 [cs224d](http://cs224d.stanford.edu/) 循环神经网络与自然语言处理  
 
 # Note 注意
+某些期的文件夹里有辅助资料哦！
+
 你需要自己下载数据 [下载地址](http://ufldl.stanford.edu/housenumbers/)  
 下载完成后，在 [本教程的路径] 下创建一个 data 的文件夹路径。将数据解压后放在里面。
 
