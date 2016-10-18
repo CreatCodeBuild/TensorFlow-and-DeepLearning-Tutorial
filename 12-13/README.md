@@ -15,3 +15,7 @@ Relu 是激活函数，定义为： relu(x) = max(x, 0)
 或者可以写成  
 relu(x) = x if x > 0 else 0    
 所以，relu 就是一个线性的阀值函数而已
+
+#### 请参考
+[cs231n 关于 Convolutional Layer 架构的解释](http://cs231n.github.io/convolutional-networks/)    
+[维基百科关于 Relu 的解释](https://en.wikipedia.org/wiki/Rectifier_(neural_networks))  
