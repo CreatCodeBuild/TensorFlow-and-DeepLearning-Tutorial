@@ -46,6 +46,7 @@ TensorFlow近乎黑科技。但是几乎只是英文资料。
 #### Convolutional Neural Network 卷积神经网络
 [TF Girls 修炼指南 12：卷积神经网络](http://www.bilibili.com/video/av6712708/)  
 [TF Girls 修炼指南 13：定义 Convolutional Layer 的参数](http://www.bilibili.com/video/av6724365/)  
+[TF Girls 修炼指南 14：定义 Convolutional Layer 的操作](http://www.bilibili.com/video/av6748650/)  
 #### Python 加油站
 [Python 加油站：Generator 的使用](http://www.bilibili.com/video/av6668700/)  
 [Python 加油站：写个 Coroutine 框架](http://www.bilibili.com/video/av6685277) 链接失效，将会重新制作
