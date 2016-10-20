@@ -69,6 +69,9 @@ def distribution(labels, name):
 
 def inspect(dataset, labels, i):
 	# 显示图片看看
+	if dataset.shape[3] == 1:
+		shape = dataset.shape
+		dataset = dataset.reshape(shape[0], shape[1], shape[2])
 	print(labels[i])
 	plt.imshow(dataset[i])
 	plt.show()
@@ -107,7 +110,7 @@ num_channels = 1
 if __name__ == '__main__':
 	# 探索数据
 	pass
-	# inspect(_train_samples, _train_labels, 1234)
+	inspect(_train_samples, _train_labels, 1234)
 	# _train_samples = normalize(_train_samples)
 	# inspect(_train_samples, _train_labels, 1234)
 	# distribution(train_labels, 'Train Labels')
