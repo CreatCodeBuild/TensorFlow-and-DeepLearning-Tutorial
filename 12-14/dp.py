@@ -38,7 +38,7 @@ def get_chunk(samples, labels, chunkSize):
 
 
 class Network():
-	def __init__(self, num_hidden, batch_size, patch_size, conv_depth, pooling_stride):
+	def __init__(self, num_hidden, batch_size, conv_depth, patch_size, pooling_scale):
 		'''
 		@num_hidden: 隐藏层的节点数量
 		@batch_size：因为我们要节省内存，所以分批处理数据。每一批的数据量。
@@ -54,7 +54,8 @@ class Network():
 		self.conv3_depth = conv_depth
 		self.conv4_depth = conv_depth
 		self.last_conv_depth = self.conv4_depth
-		self.pooling_stride = pooling_stride	# Max Pooling Stride
+		self.pooling_scale = pooling_scale
+		self.pooling_stride = self.pooling_scale	# Max Pooling Stride
 
 		# Graph Related
 		self.graph = tf.Graph()
@@ -109,16 +110,9 @@ class Network():
 					tf.truncated_normal([self.patch_size, self.patch_size, self.conv3_depth, self.conv4_depth], stddev=0.1))
 				conv4_biases = tf.Variable(tf.constant(0.1, shape=[self.conv4_depth]))
 
-			10 x 10
-
-			pooling_stride = 2
-
-			5 x 5   2^2 = 4
-
-
 			# fully connected layer 1, fully connected
 			with tf.name_scope('fc1'):
-				down_scale = self.pooling_stride ** 2	# because we do 2 times pooling of stride 2
+				down_scale = self.pooling_scale ** 2	# because we do 2 times pooling of stride 2
 				fc1_weights = tf.Variable(
 					tf.truncated_normal(
 						[(image_size // down_scale) * (image_size // down_scale) * self.last_conv_depth, self.num_hidden], stddev=0.1))
@@ -129,19 +123,47 @@ class Network():
 
 			# fully connected layer 2 --> output layer
 			with tf.name_scope('fc2'):
-				fc2_weights = tf.Variable(
-					tf.truncated_normal([self.num_hidden, num_labels], stddev=0.1), name='fc2_weights'
-				)
+				fc2_weights = tf.Variable(tf.truncated_normal([self.num_hidden, num_labels], stddev=0.1), name='fc2_weights')
 				fc2_biases = tf.Variable(tf.constant(0.1, shape=[num_labels]), name='fc2_biases')
 				tf.histogram_summary('fc2_weights', fc2_weights)
 				tf.histogram_summary('fc2_biases', fc2_biases)
 
-
 			# 想在来定义图谱的运算
 			def model(data):
+				'''
+				@data: original inputs
+				@return: logits
+				'''
+				with tf.name_scope('conv1_model'):
+					conv1 = tf.nn.conv2d(data, filter=conv1_weights, strides=[1, 1, 1, 1], padding='SAME')
+					hidden = tf.nn.relu(conv1 + conv1_biases)
+
+				with tf.name_scope('conv2_model'):
+					conv2 = tf.nn.conv2d(hidden, filter=conv2_weights, strides=[1, 1, 1, 1], padding='SAME')
+					hidden = tf.nn.relu(conv2 + conv2_biases)
+					hidden = tf.nn.max_pool(
+						hidden,
+						ksize=[1,self.pooling_scale,self.pooling_scale,1],
+						strides=[1,self.pooling_stride,self.pooling_stride,1],
+						padding='SAME')
+
+				with tf.name_scope('conv3_model'):
+					conv3 = tf.nn.conv2d(hidden, filter=conv3_weights, strides=[1, 1, 1, 1], padding='SAME')
+					hidden = tf.nn.relu(conv3 + conv3_biases)
+
+				with tf.name_scope('conv4_model'):
+					conv4 = tf.nn.conv2d(hidden, filter=conv4_weights, strides=[1, 1, 1, 1], padding='SAME')
+					hidden = tf.nn.relu(conv4 + conv4_biases)
+					hidden = tf.nn.max_pool(
+						hidden,
+						ksize=[1,self.pooling_scale,self.pooling_scale,1],
+						strides=[1,self.pooling_stride,self.pooling_stride,1],
+						padding='SAME')
+
+
 				# fully connected layer 1
-				shape = data.get_shape().as_list()
-				reshape = tf.reshape(data, [shape[0], shape[1] * shape[2] * shape[3]])
+				shape = hidden.get_shape().as_list()
+				reshape = tf.reshape(hidden, [shape[0], shape[1] * shape[2] * shape[3]])
 
 				with tf.name_scope('fc1_model'):
 					fc1_model = tf.matmul(reshape, fc1_weights) + fc1_biases
@@ -154,11 +176,8 @@ class Network():
 			# Training computation.
 			logits = model(self.tf_train_samples)
 			with tf.name_scope('loss'):
-				self.loss = tf.reduce_mean(
-					tf.nn.softmax_cross_entropy_with_logits(logits, self.tf_train_labels)
-				)
+				self.loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits, self.tf_train_labels))
 				tf.scalar_summary('Loss', self.loss)
-
 
 			# Optimizer.
 			with tf.name_scope('optimizer'):
@@ -234,5 +253,5 @@ class Network():
 
 
 if __name__ == '__main__':
-	net = Network(num_hidden=128, batch_size=100)
+	net = Network(num_hidden=16, batch_size=32, patch_size=3, conv_depth=16, pooling_scale=2)
 	net.run()
