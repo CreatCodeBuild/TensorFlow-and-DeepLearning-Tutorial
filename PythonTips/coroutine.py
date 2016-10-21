@@ -36,9 +36,8 @@ class Task:					# responsible for calling next() on generators
 			f = next(self.gen)
 			f.callbacks.append(self.step)
 		except StopIteration as e:
-			# task is finished
+			# Task is finished
 			eventLoop.n_task -= 1
-			print('--------------------------------------', 'Byte Received:', e, '\n\n')
 
 
 class EventLoop:
@@ -50,26 +49,24 @@ class EventLoop:
 		Task(generator, self)
 
 	def start(self):
-		while self.n_task:
+		while self.n_task > 0:
 			events = selector.select()
 			for event, mask in events:
 				f = event.data
 				f.resolve()
 
 
-
-def pause(socket, event):
+def pause(s, event):
 	f = Future()
-	selector.register(socket.fileno(), event, data=f)
-	yield f
+	selector.register(s.fileno(), event, data=f)
+	yield f		# pause this function
 
-def resume(socket):
-	selector.unregister(socket.fileno())
+def resume(s):
+	selector.unregister(s.fileno())
 
-
-def async_await(socket, event):
-	yield from pause(socket, event)
-	resume(socket)
+def async_await(s, event):
+	yield from pause(s, event)
+	resume(s)
 
 def async_get(path):
 	s = socket.socket()
@@ -79,24 +76,15 @@ def async_get(path):
 	except BlockingIOError as e:
 		print(e)
 
-	request = 'GET %s HTTP/1.0\r\n\r\n' % path
-
-	# yield from pause(s, EVENT_WRITE)
-
-	# the socket is writable
-	# selector.unregister(s.fileno())
-	# resume(s)
 	yield from async_await(s, EVENT_WRITE)
 
+	request = 'GET %s HTTP/1.0\r\n\r\n' % path
 	s.send(request.encode())
 
 	totalReceived = []
 	while True:
-		# yield from pause(s, EVENT_READ)
-
-		# socket is readable
-		# resume(s)
 		yield from async_await(s, EVENT_READ)
+
 		received = s.recv(1000)
 		if received:
 			totalReceived.append(received)
@@ -104,13 +92,15 @@ def async_get(path):
 			body = (b''.join(totalReceived)).decode()
 			print('--------------------------------------')
 			print(body)
-			return len(body)
+			print('--------------------------------------', 'Byte Received:', len(body), '\n\n')
+			return
+
 
 if __name__ == '__main__':
 	start = time.time()
 	eventLoop = EventLoop()
 
-	for i in range(20):
+	for i in range(50):
 		eventLoop.add_task(async_get('/super-slow'))
 
 	eventLoop.start()
