@@ -41,7 +41,6 @@ class Task:					# responsible for calling next() on generators
 			print('--------------------------------------', 'Byte Received:', e, '\n\n')
 
 
-
 class EventLoop:
 	def __init__(self):
 		self.n_task = 0
@@ -59,6 +58,19 @@ class EventLoop:
 
 
 
+def pause(socket, event):
+	f = Future()
+	selector.register(socket.fileno(), event, data=f)
+	yield f
+
+def resume(socket):
+	selector.unregister(socket.fileno())
+
+
+def async_await(socket, event):
+	yield from pause(socket, event)
+	resume(socket)
+
 def async_get(path):
 	s = socket.socket()
 	s.setblocking(False)
@@ -69,22 +81,22 @@ def async_get(path):
 
 	request = 'GET %s HTTP/1.0\r\n\r\n' % path
 
-	f = Future()
-	selector.register(s.fileno(), EVENT_WRITE, data=f)
-	yield f
+	# yield from pause(s, EVENT_WRITE)
 
 	# the socket is writable
-	selector.unregister(s.fileno())
+	# selector.unregister(s.fileno())
+	# resume(s)
+	yield from async_await(s, EVENT_WRITE)
+
 	s.send(request.encode())
 
 	totalReceived = []
 	while True:
-		f = Future()
-		selector.register(s.fileno(), EVENT_READ, data=f)
-		yield f
+		# yield from pause(s, EVENT_READ)
 
 		# socket is readable
-		selector.unregister(s.fileno())
+		# resume(s)
+		yield from async_await(s, EVENT_READ)
 		received = s.recv(1000)
 		if received:
 			totalReceived.append(received)
