@@ -39,9 +39,10 @@ export PATH="/home/MyUserName/anaconda3/bin:$PATH"
 ```Bash
 echo $PATH  # 在命令行里，你可以这样将 PATH 的值打印出来
 ```
+那么，当你在命令行里面输入 python 时，Shell 会在 PATH 中寻找叫做 python 的文件。一旦找到，那么就会执行。因为 /home/MyUserName/anaconda3/bin 这个文件夹里面有叫 python 的文件，所以就执行了这个 python。
 
 ### 4.安装Anaconda之注意事项
 
 ### 5.Virtual Environment 是什么？
 
-[视频链接]()
+[视频链接]() 尚未录制，敬请期待
