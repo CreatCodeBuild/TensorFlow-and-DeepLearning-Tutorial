@@ -34,7 +34,7 @@ gedit .bashrc  # 可以打开这个文件
 ```
 export PATH="/home/MyUserName/anaconda3/bin:$PATH"
 ```
-注意，格式一定是 export PATH=“你要添加的路径:$PATH” !  
+注意，格式一定是 export PATH=“你要添加的路径:$PATH” ！其中，PATH = 是给 PATH 这个变量赋值。：是String追加。$PATH 是引用 PATH 的值
 
 ```Bash
 echo $PATH  # 在命令行里，你可以这样将 PATH 的值打印出来
