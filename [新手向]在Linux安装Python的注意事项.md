@@ -4,12 +4,12 @@
 /usr/bin 路径下有自带的Python
 
 ### 2.最有用的 3 个 Shell 指令
-'''
+```bash
 type python
 type -a python
 which python
 whereis python
-'''
+```
 ### 3.什么是环境变量 Environmental Variable
 
 ### 4.安装Anaconda之注意事项
