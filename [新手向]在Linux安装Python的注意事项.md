@@ -49,12 +49,14 @@ export PATH="/directory1:/directory2:$PATH"
 ```
 export PATH="/directory2:$PATH"
 export PATH="/directory1:$PATH"
-# 这种写法也是一样的，意为先追加 directory2 到 PATH 的前面，再追加 direcotry1 到 PATH 前面，所以最终 directory1 在 directory2 前面。
+# 这种写法也是一样的，意为先追加 directory2 到 PATH 的前面，再追加 direcotry1 到 PATH 前面。
+# 所以最终 directory1 在 directory2 前面。
 ```
 ```
 export PATH="$PATH:/directory2"
 export PATH="$PATH:/directory1"
-# 而这样的话，就是执行 direcory2 里面的 python，前提是在原本的 PATH 里面找不到 python。如果在原本的 PATH 里面有 python，那么 Shell 根本不会搜索 directory2。
+# 而这样的话，就是执行 direcory2 里面的 python，前提是在原本的 PATH 里面找不到 python。
+# 如果在原本的 PATH 里面有 python，那么 Shell 根本不会搜索 directory2。
 ```
 
 ### 4.安装Anaconda之注意事项
