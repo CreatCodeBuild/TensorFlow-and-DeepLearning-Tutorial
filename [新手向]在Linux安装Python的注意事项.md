@@ -4,7 +4,7 @@
 /usr/bin 路径下有自带的Python
 
 ### 2.最有用的 3 个 Shell 指令
-```bash
+```shell
 type python
 type -a python
 which python
