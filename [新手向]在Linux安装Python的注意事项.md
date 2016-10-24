@@ -7,3 +7,5 @@
 ### 3.安装Anaconda之注意事项
 
 ### 4.Virtual Environment 是什么？
+
+[视频链接]()
