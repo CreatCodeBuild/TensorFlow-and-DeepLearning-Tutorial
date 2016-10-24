@@ -31,15 +31,31 @@ gedit .bashrc  # 可以打开这个文件
 你在 Files（Ubuntu自带的文件浏览器）里将“显示隐藏文件”选中也可以。
 
 将你要添加的路径粘贴到文件的最下方就可以了，如：
-```
+```bash
 export PATH="/home/MyUserName/anaconda3/bin:$PATH"
 ```
-注意，格式一定是 export PATH=“你要添加的路径:$PATH” ！其中，PATH = 是给 PATH 这个变量赋值。：是 String 追加。$PATH 是引用 PATH 的值
+注意，格式一定是 export PATH=“你要添加的路径:$PATH” ！其中，PATH = 是给 PATH 这个变量赋值。：是路径追加。$PATH 是引用 PATH 的值
 
 ```Bash
 echo $PATH  # 在命令行里，你可以这样将 PATH 的值打印出来
 ```
 那么，当你在命令行里面输入 python 时，Shell 会在 PATH 中寻找叫做 python 的文件。一旦找到，那么就会执行。因为 /home/MyUserName/anaconda3/bin 这个文件夹里面有叫 python 的文件，所以就执行了这个 python。
+
+所以要注意，假如你有多个 python 的版本，一个在 directory1 里面，一个在 directory2 里面
+```
+export PATH="/directory1:/directory2:$PATH"
+```
+那么因为先搜索到 directory1，所以就会执行 directory1 里面的 python
+```
+export PATH="/directory2:$PATH"
+export PATH="/directory1:$PATH"
+```
+这种写法也是一样的，意为先追加 directory2 到 PATH 的前面，再追加 direcotry1 到 PATH 前面，所以最终 directory1 在 directory2 前面。
+```
+export PATH="$PATH:/directory2"
+export PATH="$PATH:/directory1"
+```
+而这样的话，就是执行 direcory2 里面的 python，前提是在原本的 PATH 里面找不到 python。如果在原本的 PATH 里面有 python，那么 Shell 根本不会搜索 directory2。 
 
 ### 4.安装Anaconda之注意事项
 
