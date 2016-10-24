@@ -26,6 +26,16 @@ gedit .bashrc  # 可以打开这个文件
 ```
 你在 Files（Ubuntu自带的文件浏览器）里将“显示隐藏文件”选中也可以
 
+将你要添加的路径粘贴到文件的最下方就可以了，如：
+```
+export PATH="/home/albert/anaconda3/bin:$PATH"
+```
+注意，格式一定是 export PATH=“你要添加的路径:$PATH” !  
+Bash 是一个简易的脚本语言，PATH 是一个变量，= 是赋值，：是String追加，$PATH 是引用 PATH 的值
+```Bash
+echo $PATH  # 你可以这样将 PATH 的值打印出来
+```
+
 ### 4.安装Anaconda之注意事项
 
 ### 5.Virtual Environment 是什么？
