@@ -28,7 +28,7 @@ gedit .bashrc  # 可以打开这个文件
 
 将你要添加的路径粘贴到文件的最下方就可以了，如：
 ```
-export PATH="/home/albert/anaconda3/bin:$PATH"
+export PATH="/home/MyUserName/anaconda3/bin:$PATH"
 ```
 注意，格式一定是 export PATH=“你要添加的路径:$PATH” !  
 Bash 是一个简易的脚本语言，PATH 是一个变量，= 是赋值，：是String追加，$PATH 是引用 PATH 的值
