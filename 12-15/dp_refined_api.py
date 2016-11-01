@@ -1,41 +1,7 @@
-# 为了 Python2 玩家们
-from __future__ import print_function, division
-
-# 第三方
+# 新的 refined api 不支持 Python2
 import tensorflow as tf
 from sklearn.metrics import confusion_matrix
 import numpy as np
-
-# 我们自己
-import load
-
-train_samples, train_labels = load._train_samples, load._train_labels
-test_samples, test_labels = load._test_samples, load._test_labels
-
-print('Training set', train_samples.shape, train_labels.shape)
-print('    Test set', test_samples.shape, test_labels.shape)
-
-image_size = load.image_size
-num_labels = load.num_labels
-num_channels = load.num_channels
-
-
-def get_chunk(samples, labels, chunkSize):
-	'''
-	Iterator/Generator: get a batch of data
-	这个函数是一个迭代器/生成器，用于每一次只得到 chunkSize 这么多的数据
-	用于 for loop， just like range() function
-	'''
-	if len(samples) != len(labels):
-		raise Exception('Length of samples and labels must equal')
-	stepStart = 0  # initial step
-	i = 0
-	while stepStart < len(samples):
-		stepEnd = stepStart + chunkSize
-		if stepEnd < len(samples):
-			yield i, samples[stepStart:stepEnd], labels[stepStart:stepEnd]
-			i += 1
-		stepStart = stepEnd
 
 
 class Network():
@@ -44,7 +10,7 @@ class Network():
 		@num_hidden: 隐藏层的节点数量
 		@batch_size：因为我们要节省内存，所以分批处理数据。每一批的数据量。
 		'''
-		self.batch_size = train_batch_size
+		self.train_batch_size = train_batch_size
 		self.test_batch_size = test_batch_size
 
 		# Hyper Parameters
@@ -67,12 +33,6 @@ class Network():
 		self.merged = None
 		self.train_summaries = []
 		self.test_summaries = []
-
-		# 初始化
-		# self.define_inputs()
-
-		# TensorBoard Visualization
-
 
 	def add_conv(self, *, patch_size, in_depth, out_depth, activation='relu', pooling=False, name):
 		'''
@@ -112,18 +72,12 @@ class Network():
 			self.train_summaries.append(tf.histogram_summary(str(len(self.fc_biases))+'_biases', biases))
 
 	# should make the definition as an exposed API, instead of implemented in the function
-	def define_inputs(self):
+	def define_inputs(self, *, train_samples_shape, train_labels_shape, test_samples_shape):
 		# 这里只是定义图谱中的各种变量
 		with tf.name_scope('inputs'):
-			self.tf_train_samples = tf.placeholder(
-				tf.float32, shape=(self.batch_size, image_size, image_size, num_channels), name='tf_train_samples'
-			)
-			self.tf_train_labels = tf.placeholder(
-				tf.float32, shape=(self.batch_size, num_labels), name='tf_train_labels'
-			)
-			self.tf_test_samples = tf.placeholder(
-				tf.float32, shape=(self.test_batch_size, image_size, image_size, num_channels), name='tf_test_samples'
-			)
+			self.tf_train_samples = tf.placeholder(tf.float32, shape=train_samples_shape, name='tf_train_samples')
+			self.tf_train_labels = tf.placeholder(tf.float32, shape=train_labels_shape, name='tf_train_labels')
+			self.tf_test_samples = tf.placeholder(tf.float32, shape=test_samples_shape, name='tf_test_samples')
 
 	def define_model(self):
 		'''
@@ -192,9 +146,10 @@ class Network():
 		self.merged_train_summary = tf.merge_summary(self.train_summaries)
 		self.merged_test_summary = tf.merge_summary(self.test_summaries)
 
-	def run(self):
+	def run(self, data_iterator, train_samples, train_labels, test_samples, test_labels):
 		'''
 		用到Session
+		:data_iterator: a function that yield chuck of data
 		'''
 		# private function
 		def print_confusion_matrix(confusionMatrix):
@@ -215,7 +170,7 @@ class Network():
 			### 训练
 			print('Start Training')
 			# batch 1000
-			for i, samples, labels in get_chunk(train_samples, train_labels, chunkSize=self.batch_size):
+			for i, samples, labels in data_iterator(train_samples, train_labels, chunkSize=self.train_batch_size):
 				_, l, predictions, summary = session.run(
 					[self.optimizer, self.loss, self.train_prediction, self.merged_train_summary],
 					feed_dict={self.tf_train_samples: samples, self.tf_train_labels: labels}
@@ -231,7 +186,7 @@ class Network():
 			# ### 测试
 			accuracies = []
 			confusionMatrices = []
-			for i, samples, labels in get_chunk(test_samples, test_labels, chunkSize=self.test_batch_size):
+			for i, samples, labels in data_iterator(test_samples, test_labels, chunkSize=self.test_batch_size):
 				print('samples shape', samples.shape)
 				result, summary = session.run(
 					[self.test_prediction, self.merged_test_summary],
@@ -269,24 +224,3 @@ class Network():
 		filter_map = tf.reshape(filter_map, (how_many, display_size, display_size, 1))
 		print(how_many)
 		self.test_summaries.append(tf.image_summary(name, tensor=filter_map, max_images=how_many))
-
-
-if __name__ == '__main__':
-	net = Network(train_batch_size=64, test_batch_size=500, pooling_scale=2)
-	net.define_inputs()
-
-	#
-	net.add_conv(patch_size=3, in_depth=num_channels, out_depth=16, activation='relu', pooling=False, name='conv1')
-	net.add_conv(patch_size=3, in_depth=16, out_depth=16, activation='relu', pooling=True, name='conv2')
-	net.add_conv(patch_size=3, in_depth=16, out_depth=16, activation='relu', pooling=False, name='conv3')
-	net.add_conv(patch_size=3, in_depth=16, out_depth=16, activation='relu', pooling=True, name='conv4')
-
-	# 4 = 两次 pooling, 每一次缩小为 1/2
-	# 16 = conv4 out_depth
-	net.add_fc(in_num_nodes=(image_size // 4) * (image_size // 4) * 16, out_num_nodes=16, activation='relu', name='fc1')
-	net.add_fc(in_num_nodes=16, out_num_nodes=10, activation=None, name='fc2')
-
-
-
-	net.define_model()
-	net.run()
