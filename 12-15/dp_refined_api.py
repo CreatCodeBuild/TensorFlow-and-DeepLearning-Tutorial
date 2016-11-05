@@ -149,7 +149,7 @@ class Network():
 	def run(self, data_iterator, train_samples, train_labels, test_samples, test_labels):
 		'''
 		用到Session
-		:data_iterator: a function that yield chuck of data
+		:data_iterator: a function that yields chuck of data
 		'''
 		# private function
 		def print_confusion_matrix(confusionMatrix):
