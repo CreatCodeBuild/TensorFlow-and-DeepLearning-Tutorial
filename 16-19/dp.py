@@ -71,6 +71,14 @@ class Network():
 			self.train_summaries.append(tf.histogram_summary(str(len(self.fc_weights))+'_weights', weights))
 			self.train_summaries.append(tf.histogram_summary(str(len(self.fc_biases))+'_biases', biases))
 
+	def apply_regularization(self, _lambda):
+		# L2 regularization for the fully connected parameters
+		regularization = 0.0
+		for weights, biases in zip(self.fc_weights, self.fc_biases):
+			regularization += tf.nn.l2_loss(weights) + tf.nn.l2_loss(biases)
+		# 1e5
+		return _lambda * regularization
+
 	# should make the definition as an exposed API, instead of implemented in the function
 	def define_inputs(self, *, train_samples_shape, train_labels_shape, test_samples_shape):
 		# 这里只是定义图谱中的各种变量
@@ -131,6 +139,7 @@ class Network():
 		logits = model(self.tf_train_samples)
 		with tf.name_scope('loss'):
 			self.loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits, self.tf_train_labels))
+			self.loss += self.apply_regularization(_lambda=5e-4)
 			self.train_summaries.append(tf.scalar_summary('Loss', self.loss))
 
 		# Optimizer.
@@ -183,16 +192,14 @@ class Network():
 					print('Minibatch accuracy: %.1f%%' % accuracy)
 			###
 
-			# ### 测试
+			### 测试
 			accuracies = []
 			confusionMatrices = []
 			for i, samples, labels in data_iterator(test_samples, test_labels, chunkSize=self.test_batch_size):
-				print('samples shape', samples.shape)
 				result, summary = session.run(
 					[self.test_prediction, self.merged_test_summary],
 					feed_dict={self.tf_test_samples: samples}
 				)
-				# result = self.test_prediction.eval(feed_dict={self.tf_test_samples: samples})
 				self.writer.add_summary(summary, i)
 				accuracy, cm = self.accuracy(result, labels, need_confusion_matrix=True)
 				accuracies.append(accuracy)
