@@ -48,7 +48,8 @@ TensorFlow近乎黑科技。但是几乎只是英文资料。
 [TF Girls 修炼指南 14：定义 Convolutional Layer 的操作](http://www.bilibili.com/video/av6748650/)  
 [TF Girls 修炼指南 15：纵观卷积神经网络架构](http://www.bilibili.com/video/av6913678/)  
 #### Parameter Tuning & Optimization 调参数 & 优化
-敬请期待...
+[TF Girls 修炼指南 16：Regularization](http://www.bilibili.com/video/av6981485/)  
+敬请期待... 
 
 #### Python 加油站
 [Python 加油站：Generator 的使用](http://www.bilibili.com/video/av6668700/)  
