@@ -2,7 +2,8 @@
 ### Regularization
 L1 与 L2 Loss Function 的一些问题。给FC用的。
 ### Dropout
-随机扔掉传向末尾FC层的信号，使得末尾FC层不能完全相信所得输入。这个方法神奇地提高了正确率。可以将其理解为一种 Week Learner Ensemble 的方法。  
+随机扔掉传向末尾FC层的信号，使得末尾FC层不能完全相信所得输入。这个方法神奇地提高了正确率。可以将其理解为一种 Week Learner Ensemble 的方法。
+
 想深究的同学[插这里](http://www.cs.toronto.edu/~rsalakhu/papers/srivastava14a.pdf)
 ### Update Function / Optimization Function
 1. 普通的 Gradient Descent
