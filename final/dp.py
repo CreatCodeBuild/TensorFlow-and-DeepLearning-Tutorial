@@ -126,12 +126,8 @@ class Network():
 					shape = data_flow.get_shape().as_list()
 					data_flow = tf.reshape(data_flow, [shape[0], shape[1] * shape[2] * shape[3]])
 				with tf.name_scope(config['name'] + 'model'):
-
-					### Dropout
 					if train and i == len(self.fc_weights) - 1:
-						data_flow =  tf.nn.dropout(data_flow, 0.5, seed=4926)
-					###
-
+						data_flow =  tf.nn.dropout(data_flow, 0.9, seed=4926)
 					data_flow = tf.matmul(data_flow, weights) + biases
 					if config['activation'] == 'relu':
 						data_flow = tf.nn.relu(data_flow)
@@ -150,7 +146,15 @@ class Network():
 
 		# Optimizer.
 		with tf.name_scope('optimizer'):
-			self.optimizer = tf.train.GradientDescentOptimizer(0.0001).minimize(self.loss)
+			# self.optimizer = tf.train.GradientDescentOptimizer(0.0001).minimize(self.loss)
+			# learning rate decay
+			global_step = tf.Variable(0)
+			lr = 0.001
+			dr = 0.99
+			learning_rate = tf.train.exponential_decay(lr, global_step*self.train_batch_size, 100, dr, staircase=True)
+			self.optimizer = tf.train \
+					.AdamOptimizer(learning_rate) \
+					.minimize(self.loss)
 
 		# Predictions for the training, validation, and test data.
 		with tf.name_scope('train'):
