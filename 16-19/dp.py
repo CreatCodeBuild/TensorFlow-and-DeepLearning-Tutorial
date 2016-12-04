@@ -5,11 +5,14 @@ import numpy as np
 
 
 class Network():
-	def __init__(self, train_batch_size, test_batch_size, pooling_scale):
+	def __init__(self, train_batch_size, test_batch_size, pooling_scale,
+				       optimizeMethod='adam'):
 		'''
 		@num_hidden: 隐藏层的节点数量
 		@batch_size：因为我们要节省内存，所以分批处理数据。每一批的数据量。
 		'''
+		self.optimizeMethod = optimizeMethod;
+
 		self.train_batch_size = train_batch_size
 		self.test_batch_size = test_batch_size
 
@@ -148,9 +151,32 @@ class Network():
 			self.loss += self.apply_regularization(_lambda=5e-4)
 			self.train_summaries.append(tf.scalar_summary('Loss', self.loss))
 
+		# learning rate decay
+		global_step = tf.Variable(0)
+		lr = 0.001
+		dr = 0.99
+		learning_rate = tf.train.exponential_decay(
+			learning_rate=lr,
+			global_step=global_step*self.train_batch_size,
+			decay_steps=100,
+			decay_rate=dr,
+			staircase=True
+		)
+
 		# Optimizer.
 		with tf.name_scope('optimizer'):
-			self.optimizer = tf.train.GradientDescentOptimizer(0.0001).minimize(self.loss)
+			if(self.optimizeMethod=='gradient'):
+				self.optimizer = tf.train \
+					.GradientDescentOptimizer(learning_rate) \
+					.minimize(self.loss)
+			elif(self.optimizeMethod=='momentum'):
+				self.optimizer = tf.train \
+					.MomentumOptimizer(learning_rate, 0.5) \
+					.minimize(self.loss)
+			elif(self.optimizeMethod=='adam'):
+				self.optimizer = tf.train \
+					.AdamOptimizer(learning_rate) \
+					.minimize(self.loss)
 
 		# Predictions for the training, validation, and test data.
 		with tf.name_scope('train'):
