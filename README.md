@@ -66,7 +66,7 @@ TensorFlow近乎黑科技。但是几乎只是英文资料。
 
 ### 没有机器学习基础的同学 No Machine Learning Background
 #### Udacity的机器学习  
-[英文 English](https://www.udacity.com/course/machine-learning-engineer-nanodegree--nd009) [中文 Chinese](https://cn.udacity.com/course/machine-learning-engineer-nanodegree--nd009) 这个课是收费的，我学习并完成了这个课程。入门最佳，没有之一。Udacity也有免费课程
+[英文 English](https://www.udacity.com/course/machine-learning-engineer-nanodegree--nd009) [中文 Chinese](https://cn.udacity.com/course/machine-learning-engineer-nanodegree--nd009)
 
 ### 深度学习新同学 New to Deep Learning
 #### Udacity Deep Learning  
