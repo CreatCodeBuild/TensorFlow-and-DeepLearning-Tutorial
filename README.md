@@ -50,6 +50,7 @@ TensorFlow近乎黑科技。但是几乎只是英文资料。
 #### Parameter Tuning & Optimization 调参数 & 优化
 [TF Girls 修炼指南 16：Regularization](http://www.bilibili.com/video/av6981485/)  
 [TF Girls 修炼指南 17：Dropout](http://www.bilibili.com/video/av7092107/)  
+[TF Girls 修炼指南 18：Follow the Gradient 与优化问题](http://www.bilibili.com/video/av7373482/)  
 敬请期待... 
 
 #### Python 加油站
