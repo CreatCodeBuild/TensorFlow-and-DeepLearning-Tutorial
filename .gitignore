@@ -5,3 +5,6 @@ __pycache__*
 events.out.tfevents*
 .idea*
 node_modules*
+20/model/checkpoint
+*.ckpt
+20/model/default.ckpt.meta
