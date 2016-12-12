@@ -53,7 +53,7 @@ TensorFlow近乎黑科技。但是几乎只是英文资料。
 [TF Girls 修炼指南 18：Follow the Gradient 与优化问题](http://www.bilibili.com/video/av7373482/)  
 [TF Girls 修炼指南 19：学习速率衰减](http://www.bilibili.com/video/av7382301/)  
 #### Save the Model & The End
-[TF Girls 修炼指南 20：调参结果 & 保存模型](http://www.bilibili.com/video/av7382301/)  
+[TF Girls 修炼指南 20：调参结果 & 保存模型](http://www.bilibili.com/video/av7485497/)  
 [TF Girls 修炼指南 21：总结](http://www.bilibili.com/video/av7493981/)  
 
 #### Python 加油站
