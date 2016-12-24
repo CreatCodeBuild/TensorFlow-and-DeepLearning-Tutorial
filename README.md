@@ -27,6 +27,8 @@ TensorFlow近乎黑科技。但是几乎只是英文资料。
 
 # Video Links 视频链接
 ### Bilibili
+#### Installation 安装
+[TensorFlow 终于TM支持 Windows 了](http://www.bilibili.com/video/av7676039/)  
 #### TensorFlow Basics 基本概念
 [TF Girls 修炼指南 1：Intro 重置版](http://www.bilibili.com/video/av6642102/)   
 [TF Girls 修炼指南 2：基本操作](http://www.bilibili.com/video/av6642246)  
