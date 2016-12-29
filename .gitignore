@@ -8,3 +8,5 @@ node_modules*
 20/model/checkpoint
 *.ckpt
 20/model/default.ckpt.meta
+*.data-00000-of-00001
+20/model/default.ckpt.index

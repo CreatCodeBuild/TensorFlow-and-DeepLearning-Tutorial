@@ -188,8 +188,15 @@ class Network():
 		# Predictions for the training, validation, and test data.
 		with tf.name_scope('train'):
 			self.train_prediction = tf.nn.softmax(logits, name='train_prediction')
+			tf.add_to_collection("prediction", self.train_prediction)
 		with tf.name_scope('test'):
 			self.test_prediction = tf.nn.softmax(model(self.tf_test_samples, train=False), name='test_prediction')
+			tf.add_to_collection("prediction", self.test_prediction)
+
+			single_shape = (1, 32, 32, 1)
+			single_input = tf.placeholder(tf.float32, shape=single_shape, name='single_input')
+			self.single_prediction = tf.nn.softmax(model(single_input, train=False), name='single_prediction')
+			tf.add_to_collection("prediction", self.single_prediction)
 
 		self.merged_train_summary = tf.merge_summary(self.train_summaries)
 		self.merged_test_summary = tf.merge_summary(self.test_summaries)
@@ -277,17 +284,19 @@ class Network():
 			self.define_model()
 		if self.writer is None:
 			self.writer = tf.train.SummaryWriter('./board', tf.get_default_graph())
+		
+		print('Before session')
 		with tf.Session(graph=tf.get_default_graph()) as session:
 			self.saver.restore(session, self.save_path)
 			### 测试
 			accuracies = []
 			confusionMatrices = []
 			for i, samples, labels in data_iterator(test_samples, test_labels, chunkSize=self.test_batch_size):
-				result, summary = session.run(
-					[self.test_prediction, self.merged_test_summary],
+				result= session.run(
+					self.test_prediction,
 					feed_dict={self.tf_test_samples: samples}
 				)
-				self.writer.add_summary(summary, i)
+				#self.writer.add_summary(summary, i)
 				accuracy, cm = self.accuracy(result, labels, need_confusion_matrix=True)
 				accuracies.append(accuracy)
 				confusionMatrices.append(cm)
@@ -311,13 +320,13 @@ class Network():
 		return accuracy, cm
 
 	def visualize_filter_map(self, tensor, *, how_many, display_size, name):
-		print(tensor.get_shape)
+		#print(tensor.get_shape)
 		filter_map = tensor[-1]
-		print(filter_map.get_shape())
+		#print(filter_map.get_shape())
 		filter_map = tf.transpose(filter_map, perm=[2, 0, 1])
-		print(filter_map.get_shape())
+		#print(filter_map.get_shape())
 		filter_map = tf.reshape(filter_map, (how_many, display_size, display_size, 1))
-		print(how_many)
+		#print(how_many)
 		self.test_summaries.append(tf.image_summary(name, tensor=filter_map, max_images=how_many))
 
 	def print_confusion_matrix(self, confusionMatrix):
