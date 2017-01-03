@@ -19,7 +19,10 @@ TensorFlow近乎黑科技。但是几乎只是英文资料。
 # Note 注意
 某些期的文件夹里有辅助资料哦！
 
-你需要自己下载数据 [下载地址](http://ufldl.stanford.edu/housenumbers/)  
+本教程在2016年9月底开始制作，tensorflow.__version__ == 0.11.0rc0  
+现在的 TF 已经更新了，所以部分代码不一定兼容  
+
+你需要自己下载数据 [下载地址](http://ufldl.stanford.edu/housenumbers/)  
 下载完成后，在 [本教程的路径] 下创建一个 data 的文件夹路径。将数据解压后放在里面。
 
 完全没想到有这么多星。先谢谢啦！  
