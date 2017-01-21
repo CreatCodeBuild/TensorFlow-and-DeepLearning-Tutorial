@@ -70,7 +70,7 @@ TensorFlow近乎黑科技。但是几乎只是英文资料。
 
 # Additional Resources 额外学习资源
 ### 中文资源
-[TF 中文社区](http://tensorfly.cn/)
+[TensorFlow 中文交流群](https://gitter.im/TensorFlow-%E4%B8%AD%E6%96%87%E4%BA%A4%E6%B5%81)
 
 ### 没有机器学习基础的同学 No Machine Learning Background
 #### Udacity的机器学习  
