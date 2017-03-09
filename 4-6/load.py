@@ -111,6 +111,9 @@ if __name__ == '__main__':
 	pass
 	# inspect(_train_samples, _train_labels, 1234)
 	# _train_samples = normalize(_train_samples)
+	# normalize之后_train_samples维度会发生改变，直接用imshow会报错
+    	# 需要降维才能画出图
+    	# _train_samples = _train_samples[:,:,:,0]
 	# inspect(_train_samples, _train_labels, 1234)
 	# distribution(train_labels, 'Train Labels')
 	# distribution(test_labels, 'Test Labels')
