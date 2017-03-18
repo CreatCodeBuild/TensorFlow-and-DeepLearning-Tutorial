@@ -1,26 +1,23 @@
 # TensorFlow / Deep Learning Tutorial in Chinese 中文教程
 
-Open Source Technology means to be shared across the world.
+This is just a TensorFlow / Deep Learning tutorial series which I have been making.
 
-While TensorFlow is a piece of super advanced technology, there are mostly English supports.
+I am not a pro deep learning engineer. So take my words as references, not golden rules.
 
-I feel the need to provide an easier way for Chinese developers to learn this world-class technology.
+Meanwhile, have fun.
 
-I am not an expert. I share when I learn. That's deep.
+这只是一个我制作的 张量流/深度学习 的教程。
 
-开源项目注定要分享给全世界。
+我不是一个深度学习专家。所以我的话也只是参考而已，不是什么黄金法则。
 
-TensorFlow近乎黑科技。但是几乎只是英文资料。
-
-我觉得有必要为中文世界开发者们提供一个更容易的学习之路。
-
-我不是专家。我学习所以我分享。可以的，这很深。
+出来玩，开心一点嘛。
 
 # Note 注意
 某些期的文件夹里有辅助资料哦！
 
-本教程在2016年9月底开始制作，tensorflow.__version__ == 0.11.0rc0  
-现在的 TF 已经更新了，所以部分代码不一定兼容  
+This tutorial was started in September, 2016 本教程在2016年9月底开始制作  
+TF has been updated, which may cause partial incompatibility. 现在的 TF 已经更新了，所以部分代码不一定兼容  
+tensorflow.__version__ == 0.11.0rc0  
 
 你需要自己下载数据 [下载地址](http://ufldl.stanford.edu/housenumbers/)  
 下载完成后，在 [本教程的路径] 下创建一个 data 的文件夹路径。将数据解压后放在里面。
@@ -59,7 +56,10 @@ TensorFlow近乎黑科技。但是几乎只是英文资料。
 [TF Girls 修炼指南 19：学习速率衰减](http://www.bilibili.com/video/av7382301/)  
 #### Save the Model & The End
 [TF Girls 修炼指南 20：调参结果 & 保存模型](http://www.bilibili.com/video/av7485497/)  
-[TF Girls 修炼指南 21：总结](http://www.bilibili.com/video/av7493981/)  
+[TF Girls 修炼指南 21：总结](http://www.bilibili.com/video/av7493981/)  
+
+你也许也想看看这个 Maybe you also want to see this:  
+https://github.com/CreatCodeBuild/TF-Model-Service  
 
 #### Python 加油站
 [Python 加油站：Generator 的使用](http://www.bilibili.com/video/av6668700/)  
@@ -70,7 +70,7 @@ TensorFlow近乎黑科技。但是几乎只是英文资料。
 
 # Additional Resources 额外学习资源
 ### 中文资源
-[TF 中文社区](http://tensorfly.cn/)
+[TensorFlow 中文 Gitter 交流群](https://gitter.im/TensorFlow-%E4%B8%AD%E6%96%87%E4%BA%A4%E6%B5%81)
 
 ### 没有机器学习基础的同学 No Machine Learning Background
 #### Udacity的机器学习  
