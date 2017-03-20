@@ -119,12 +119,12 @@ def generate_batch(batch_size, num_skips, skip_window):
   data_index = (data_index + len(data) - span) % len(data)
   return batch, labels
 
+batch, labels = generate_batch(batch_size=8, num_skips=2, skip_window=1)
+for i in range(8):
+  print(batch[i], reverse_dictionary[batch[i]], '->', labels[i, 0], reverse_dictionary[labels[i, 0]])
+
 
 if __name__ == "__main__":
-  batch, labels = generate_batch(batch_size=8, num_skips=2, skip_window=1)
-  for i in range(8):
-    print(batch[i], reverse_dictionary[batch[i]], '->', labels[i, 0], reverse_dictionary[labels[i, 0]])
-
   # Step 4: Build and train a skip-gram model.
   batch_size = 128
   embedding_size = 128  # Dimension of the embedding vector.
@@ -179,10 +179,8 @@ if __name__ == "__main__":
     # Compute the cosine similarity between minibatch examples and all embeddings.
     norm = tf.sqrt(tf.reduce_sum(tf.square(embeddings), 1, keep_dims=True))
     normalized_embeddings = embeddings / norm
-    valid_embeddings = tf.nn.embedding_lookup(
-        normalized_embeddings, valid_dataset)
-    similarity = tf.matmul(
-        valid_embeddings, normalized_embeddings, transpose_b=True)
+    valid_embeddings = tf.nn.embedding_lookup(normalized_embeddings, valid_dataset)
+    similarity = tf.matmul(valid_embeddings, normalized_embeddings, transpose_b=True)
 
     # Add variable initializer.
     init = tf.global_variables_initializer()
@@ -214,6 +212,10 @@ if __name__ == "__main__":
         print("Average loss at step ", step, ": ", average_loss)
         average_loss = 0
 
+    """
+    Use TensorBoard to visualize our model. 
+    This is not included in the TensorFlow website tutorial.
+    """
     words_to_visualize = 3000
     final_embeddings = normalized_embeddings.eval()[:words_to_visualize]
     embedding_var = tf.Variable(final_embeddings)
