@@ -8,3 +8,5 @@ This series is all about NLP and RNN and stuff. It is programming oriented and n
 ## Videos (is coming)
 ### Bilibili
 ### YouTube
+
+## Articals
