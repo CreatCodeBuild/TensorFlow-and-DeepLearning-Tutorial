@@ -183,7 +183,12 @@ if __name__ == "__main__":
     similarity = tf.matmul(valid_embeddings, normalized_embeddings, transpose_b=True)
 
     # Add variable initializer.
-    init = tf.global_variables_initializer()
+    tf_major_ver = int(tf.__version__.split(".")[0])
+    tf_minor_ver = int(tf.__version__.split(".")[1])
+    if(tf_major_ver==0 and tf_minor_ver<12):
+      init = tf.initialize_all_variables()
+    else:
+      init = tf.global_variables_initializer()
 
   # Step 5: Begin training.
   num_steps = 100001
