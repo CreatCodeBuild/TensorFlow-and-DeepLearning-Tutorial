@@ -9,6 +9,13 @@ import numpy as np
 # 我们自己
 import load
 
+if(tf.__version__.startswith("1.")):
+	image_summary , scalar_summary= tf.summary.image , tf.summary.scalar
+	merge_summary , histogram_summary = tf.summary.merge , tf.summary.histogram
+else:
+	image_summary , scalar_summary = tf.image_summary , tf.scalar_summary
+	merge_summary , histogram_summary =	tf.merge_summary , tf.histogram_summary
+
 train_samples, train_labels = load._train_samples, load._train_labels
 test_samples, test_labels = load._test_samples,  load._test_labels
 
@@ -121,15 +128,15 @@ class Network():
 						[(image_size // down_scale) * (image_size // down_scale) * self.last_conv_depth, self.num_hidden], stddev=0.1))
 				fc1_biases = tf.Variable(tf.constant(0.1, shape=[self.num_hidden]))
 
-				self.train_summaries.append(tf.histogram_summary('fc1_weights', fc1_weights))
-				self.train_summaries.append(tf.histogram_summary('fc1_biases', fc1_biases))
+				self.train_summaries.append(histogram_summary('fc1_weights', fc1_weights))
+				self.train_summaries.append(histogram_summary('fc1_biases', fc1_biases))
 
 			# fully connected layer 2 --> output layer
 			with tf.name_scope('fc2'):
 				fc2_weights = tf.Variable(tf.truncated_normal([self.num_hidden, num_labels], stddev=0.1), name='fc2_weights')
 				fc2_biases = tf.Variable(tf.constant(0.1, shape=[num_labels]), name='fc2_biases')
-				self.train_summaries.append(tf.histogram_summary('fc2_weights', fc2_weights))
-				self.train_summaries.append(tf.histogram_summary('fc2_biases', fc2_biases))
+				self.train_summaries.append(histogram_summary('fc2_weights', fc2_weights))
+				self.train_summaries.append(histogram_summary('fc2_biases', fc2_biases))
 
 			# 想在来定义图谱的运算
 			def model(data, train=True):
@@ -154,7 +161,7 @@ class Network():
 						filter_map = hidden[-1]
 						filter_map = tf.transpose(filter_map, perm=[2, 0, 1])
 						filter_map = tf.reshape(filter_map, (self.conv1_depth, 32, 32, 1))
-						self.test_summaries.append(tf.image_summary('conv1_relu', tensor=filter_map, max_images=self.conv1_depth))
+						self.test_summaries.append(image_summary('conv1_relu', tensor=filter_map, max_images=self.conv1_depth))
 
 				with tf.name_scope('conv2_model'):
 					with tf.name_scope('convolution'):
@@ -206,7 +213,7 @@ class Network():
 			logits = model(self.tf_train_samples)
 			with tf.name_scope('loss'):
 				self.loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits, self.tf_train_labels))
-				self.train_summaries.append(tf.scalar_summary('Loss', self.loss))
+				self.train_summaries.append(scalar_summary('Loss', self.loss))
 
 			# Optimizer.
 			with tf.name_scope('optimizer'):
@@ -218,8 +225,8 @@ class Network():
 			with tf.name_scope('test'):
 				self.test_prediction = tf.nn.softmax(model(self.tf_test_samples, train=False), name='test_prediction')
 
-			self.merged_train_summary = tf.merge_summary(self.train_summaries)
-			self.merged_test_summary = tf.merge_summary(self.test_summaries)
+			self.merged_train_summary = merge_summary(self.train_summaries)
+			self.merged_test_summary = merge_summary(self.test_summaries)
 
 	def run(self):
 		'''

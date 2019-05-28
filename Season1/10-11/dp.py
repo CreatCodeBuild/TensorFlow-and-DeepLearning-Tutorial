@@ -9,6 +9,13 @@ import numpy as np
 # 我们自己
 import load
 
+if(tf.__version__.startswith("1.")):
+	merge_all_summaries , scalar_summary , histogram_summary= tf.summary.merge_all , tf.summary.scalar , tf.summary.histogram
+	
+else:
+	merge_all_summaries , scalar_summary , histogram_summary = tf.merge_all_summaries , tf.scalar_summary , tf.histogram_summary
+
+
 train_samples, train_labels = load._train_samples, load._train_labels
 test_samples, test_labels = load._test_samples,  load._test_labels
 
@@ -88,8 +95,8 @@ class Network():
 					tf.truncated_normal([image_size * image_size, self.num_hidden], stddev=0.1), name='fc1_weights'
 				)
 				fc1_biases = tf.Variable(tf.constant(0.1, shape=[self.num_hidden]), name='fc1_biases')
-				tf.histogram_summary('fc1_weights', fc1_weights)
-				tf.histogram_summary('fc1_biases', fc1_biases)
+				histogram_summary('fc1_weights', fc1_weights)
+				histogram_summary('fc1_biases', fc1_biases)
 
 			# fully connected layer 2 --> output layer
 			with tf.name_scope('fc2'):
@@ -97,8 +104,8 @@ class Network():
 					tf.truncated_normal([self.num_hidden, num_labels], stddev=0.1), name='fc2_weights'
 				)
 				fc2_biases = tf.Variable(tf.constant(0.1, shape=[num_labels]), name='fc2_biases')
-				tf.histogram_summary('fc2_weights', fc2_weights)
-				tf.histogram_summary('fc2_biases', fc2_biases)
+				histogram_summary('fc2_weights', fc2_weights)
+				histogram_summary('fc2_biases', fc2_biases)
 
 
 			# 想在来定义图谱的运算
@@ -121,7 +128,7 @@ class Network():
 				self.loss = tf.reduce_mean(
 					tf.nn.softmax_cross_entropy_with_logits(logits, self.tf_train_labels)
 				)
-				tf.scalar_summary('Loss', self.loss)
+				scalar_summary('Loss', self.loss)
 
 
 			# Optimizer.
@@ -133,7 +140,7 @@ class Network():
 				self.train_prediction = tf.nn.softmax(logits, name='train_prediction')
 				self.test_prediction = tf.nn.softmax(model(self.tf_test_samples), name='test_prediction')
 
-			self.merged = tf.merge_all_summaries()
+			self.merged = merge_all_summaries()
 
 	def run(self):
 		'''

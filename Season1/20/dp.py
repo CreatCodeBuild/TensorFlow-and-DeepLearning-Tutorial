@@ -3,6 +3,12 @@ import tensorflow as tf
 from sklearn.metrics import confusion_matrix
 import numpy as np
 
+if(tf.__version__.startswith("1.")):
+	image_summary , scalar_summary= tf.summary.image , tf.summary.scalar
+	merge_summary , histogram_summary = tf.summary.merge , tf.summary.histogram
+else:
+	image_summary , scalar_summary = tf.image_summary , tf.scalar_summary
+	merge_summary , histogram_summary =	tf.merge_summary , tf.histogram_summary
 
 class Network():
 	def __init__(self, train_batch_size, test_batch_size, pooling_scale,
@@ -80,8 +86,8 @@ class Network():
 			biases = tf.Variable(tf.constant(0.1, shape=[out_num_nodes]))
 			self.fc_weights.append(weights)
 			self.fc_biases.append(biases)
-			self.train_summaries.append(tf.histogram_summary(str(len(self.fc_weights))+'_weights', weights))
-			self.train_summaries.append(tf.histogram_summary(str(len(self.fc_biases))+'_biases', biases))
+			self.train_summaries.append(histogram_summary(str(len(self.fc_weights))+'_weights', weights))
+			self.train_summaries.append(histogram_summary(str(len(self.fc_biases))+'_biases', biases))
 
 	def apply_regularization(self, _lambda):
 		# L2 regularization for the fully connected parameters
@@ -158,7 +164,7 @@ class Network():
 		with tf.name_scope('loss'):
 			self.loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits, self.tf_train_labels))
 			self.loss += self.apply_regularization(_lambda=5e-4)
-			self.train_summaries.append(tf.scalar_summary('Loss', self.loss))
+			self.train_summaries.append(scalar_summary('Loss', self.loss))
 
 		# learning rate decay
 		global_step = tf.Variable(0)
@@ -198,8 +204,8 @@ class Network():
 			self.single_prediction = tf.nn.softmax(model(single_input, train=False), name='single_prediction')
 			tf.add_to_collection("prediction", self.single_prediction)
 
-		self.merged_train_summary = tf.merge_summary(self.train_summaries)
-		self.merged_test_summary = tf.merge_summary(self.test_summaries)
+		self.merged_train_summary = merge_summary(self.train_summaries)
+		self.merged_test_summary = merge_summary(self.test_summaries)
 
 		# 放在定义Graph之后，保存这张计算图
 		self.saver = tf.train.Saver(tf.all_variables())
@@ -327,7 +333,7 @@ class Network():
 		#print(filter_map.get_shape())
 		filter_map = tf.reshape(filter_map, (how_many, display_size, display_size, 1))
 		#print(how_many)
-		self.test_summaries.append(tf.image_summary(name, tensor=filter_map, max_images=how_many))
+		self.test_summaries.append(image_summary(name, tensor=filter_map, max_images=how_many))
 
 	def print_confusion_matrix(self, confusionMatrix):
 		print('Confusion    Matrix:')
